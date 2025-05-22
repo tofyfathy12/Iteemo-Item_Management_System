@@ -42,8 +42,8 @@ class Item {
 
 public class Main {
 
-    DLL itemsDll = new DLL();
-    BinarySearchTree<Integer, DLLNode> bst = new BinarySearchTree<Integer, DLLNode>();
+    DLL<Item> itemsDll = new DLL<Item>();
+    BinarySearchTree<Integer, DLLNode<Item>> bst = new BinarySearchTree<Integer, DLLNode<Item>>();
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
