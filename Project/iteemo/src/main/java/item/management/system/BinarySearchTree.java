@@ -1,12 +1,14 @@
 package item.management.system;
 
 class Node<TKey extends Comparable<TKey>, Value> {
+        private int height;
         private TKey key;
         private Value value;
         private Node<TKey, Value> parent;
         private Node<TKey, Value> left;
         private Node<TKey, Value> right;
         public Node(TKey key, Value value) {
+            this.height = 0;
             this.parent = this.left = this.right = null;
             this.key = key;
             this.value = value;
@@ -30,6 +32,10 @@ class Node<TKey extends Comparable<TKey>, Value> {
 
         public Node<TKey, Value> getParent() {
             return this.parent;
+        }
+
+        public void setParent(Node<TKey, Value> newParent) {
+            this.parent = newParent;
         }
 
         public Node<TKey, Value> getLeft() {
@@ -56,6 +62,14 @@ class Node<TKey extends Comparable<TKey>, Value> {
 
         public boolean hasRight() {
             return (this.right != null);
+        }
+
+        public int getHeight() {
+            return this.height;
+        }
+
+        public void setHeight(int newHeight) {
+            this.height = newHeight;
         }
     }
 
@@ -85,11 +99,12 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
     }
 
     private void insert(Node<TKey, Value> v, TKey key, Value value) {
+        int cmp = 0;
         if (v == null) {
             root = new Node<TKey, Value>(key, value);
         }
         else {
-            int cmp = key.compareTo(v.getKey());
+            cmp = key.compareTo(v.getKey());
             if (cmp == 0) {
                 v.setValue(value);
             }
@@ -98,7 +113,8 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
                     insert(v.getLeft(), key, value);
                 }
                 else {
-                    v.setLeft(new Node<TKey, Value>(key, value));
+                    Node<TKey, Value> newNode = new Node<TKey, Value>(key, value);
+                    v.setLeft(newNode);
                 }
             }
             else {
@@ -106,10 +122,70 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
                     insert(v.getRight(), key, value);
                 }
                 else {
-                    v.setRight(new Node<TKey, Value>(key, value));
+                    Node<TKey, Value> newNode = new Node<TKey, Value>(key, value);
+                    v.setRight(newNode);
                 }
             }
         }
+        int bf = getBalance(root);
+        if (bf > 1) {
+            cmp = key.compareTo(root.getLeft().getKey());
+            if (cmp < 0) {
+                root = rotateRight(root);
+            }
+            else if (cmp > 0){
+                root.setLeft(rotateLeft(root.getLeft()));
+                root = rotateRight(root);
+            }
+        }
+        else if (bf < -1) {
+            cmp = key.compareTo(root.getRight().getKey());
+            if (cmp > 0) {
+                root = rotateLeft(root);
+            }
+            else if (cmp < 0) {
+                root.setRight(rotateRight(root.getRight()));
+                root = rotateLeft(root);
+            }
+        }
+    }
+
+    private void updateHeight(Node<TKey, Value> child) {
+        Node<TKey, Value> iter = child.getParent();
+        while (iter != null) {
+            iter.setHeight(iter.getHeight() + 1);
+            iter = iter.getParent();
+        }
+    }
+
+    private Node<TKey, Value> rotateLeft(Node<TKey, Value> root) {
+        Node<TKey, Value> Z = root.getRight();
+        Node<TKey, Value> C = Z.getLeft();
+
+        Z.setLeft(root);
+        Z.setParent(null);
+        root.setRight(C);
+        updateHeight(root);
+
+        return Z;
+    }
+
+    private Node<TKey, Value> rotateRight(Node<TKey, Value> root) {
+        Node<TKey, Value> Z = root.getLeft();
+        Node<TKey, Value> C = Z.getRight();
+
+        Z.setRight(root);
+        Z.setParent(null);
+        root.setLeft(C);
+        updateHeight(root);
+
+        return Z;
+    }
+
+    private int getBalance(Node<TKey, Value> root) {
+        if (root == null)
+            return 0;
+        return height(root.getLeft()) - height(root.getRight());
     }
 
     public Value getMin() {
@@ -249,7 +325,7 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
 
     private int height(Node<TKey, Value> root) {
         if (root == null)
-            return 0;
-        return 1 + Math.max(height(root.getLeft()), height(root.getRight()));
+            return -1;
+        return root.getHeight();
     }
 }

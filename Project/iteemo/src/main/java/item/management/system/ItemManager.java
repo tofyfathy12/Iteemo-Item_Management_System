@@ -86,11 +86,31 @@ public class ItemManager {
     }
 
     public void deleteItem(int ID) {
-
+        DLLNode<Item> deletedItemNode = itemsBST.get(ID);
+        itemsBST.delete(ID);
+        DLLNode<Item> prev = null, next = null;
+        if (deletedItemNode != null) {
+            prev = deletedItemNode.getPrev();
+            next = deletedItemNode.getNext();
+        }
+        if (prev != null)
+            prev.setNext(next);
+        if (next != null)
+            next.setPrev(prev);
+        itemsDll.size--;
+        undoStack.push(deletedItemNode);
     }
 
     public void undoLastDeletion() {
+        DLLNode<Item> lastDeleted = undoStack.pop();
 
+        itemsBST.insert(lastDeleted.getElement().getID(), lastDeleted);
+
+        DLLNode<Item> prev = lastDeleted.getPrev(), next = lastDeleted.getNext();
+        if (prev != null)
+            prev.setNext(lastDeleted);
+        if (next != null)
+            next.setPrev(lastDeleted);
     }
 
     public void processNextPriorityItem() { // Dequeue next urgent/normal item
