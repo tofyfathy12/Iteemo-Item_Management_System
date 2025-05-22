@@ -52,13 +52,13 @@ class Item {
 
 public class ItemManager {
     private DLL<Item> itemsDll;
-    private BinarySearchTree<Integer, DLLNode<Item>> bst;
-    private MyStack<DLLNode<Item>> delStack;
+    private BinarySearchTree<Integer, DLLNode<Item>> itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
+    private MyStack<DLLNode<Item>> undoStack;
 
     public ItemManager() {
         this.itemsDll = new DLL<Item>();
-        this.bst = new BinarySearchTree<Integer, DLLNode<Item>>();
-        this.delStack = new MyStack<DLLNode<Item>>();
+        this.itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
+        this.undoStack = new MyStack<DLLNode<Item>>();
     }
     
     public void addItem(String name, String description, String category, String priority) {
