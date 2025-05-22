@@ -107,6 +107,8 @@ public class ItemManager {
         itemsBST.delete(ID);
         DLLNode<Item> prev = null, next = null;
         if (deletedItemNode != null) {
+            undoStack.push(deletedItemNode);
+            itemsPQ.remove(deletedItemNode.getElement());
             prev = deletedItemNode.getPrev();
             next = deletedItemNode.getNext();
         }
@@ -115,13 +117,13 @@ public class ItemManager {
         if (next != null)
             next.setPrev(prev);
         itemsDll.size--;
-        undoStack.push(deletedItemNode);
     }
 
     public void undoLastDeletion() {
         DLLNode<Item> lastDeleted = undoStack.pop();
 
         itemsBST.insert(lastDeleted.getElement().getID(), lastDeleted);
+        itemsPQ.insert(lastDeleted.getElement().getPriority(), lastDeleted.getElement());
 
         DLLNode<Item> prev = lastDeleted.getPrev(), next = lastDeleted.getNext();
         if (prev != null)

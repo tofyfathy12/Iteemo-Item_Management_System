@@ -34,4 +34,6 @@ public interface IPriorityQueue<E> {
      * @throws IllegalStateException if the priority queue is empty
      */
     E removeMax() throws EmptyQueueException;
+
+    void remove(E Data);
 }

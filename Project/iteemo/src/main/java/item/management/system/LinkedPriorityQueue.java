@@ -75,6 +75,18 @@ public class LinkedPriorityQueue<E> implements IPriorityQueue<E> {
         }
     }
 
+    public void remove(E Data) {
+        PQNode<E> prev = null, cur = head;
+        while (cur.getData() != Data && cur != null) {
+            prev = cur;
+            cur = cur.getNext();
+        }
+
+        prev.setNext(cur.getNext());
+        cur.setNext(null);
+        Qsize--;
+    }
+
     public PQNode <E> getHead() {
         return head;
     }
