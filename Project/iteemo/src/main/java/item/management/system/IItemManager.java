@@ -14,5 +14,4 @@ public interface IItemManager {
     void searchItemByCategory(String category);
     void saveToFile(String filename) throws IOException;
     void loadFromFile(String filename) throws FileNotFoundException;
-
 }
