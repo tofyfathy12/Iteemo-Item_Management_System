@@ -1,5 +1,7 @@
 package item.management.system;
 
+import java.io.*;
+
 class Item {
     private Integer ID;
     private String name, desc, category;
@@ -51,11 +53,10 @@ class Item {
 }
 
 public class ItemManager {
-    private int itemCount =0;
     private DLL<Item> itemsDll = new DLL<Item>();
     private BinarySearchTree<Integer, DLLNode<Item>> itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
     private MyStack<DLLNode<Item>> undoStack;
-    private LinkedPriorityQueue<Item> PQ = new LinkedPriorityQueue<>();
+    private LinkedPriorityQueue<Item> itemsPQ = new LinkedPriorityQueue<>();
 
     public ItemManager() {
         this.itemsDll = new DLL<Item>();
@@ -63,17 +64,17 @@ public class ItemManager {
         this.undoStack = new MyStack<DLLNode<Item>>();
     }
 
-    public void addItem(String name, String description, String category,int priority) {
-        Item newItem = new Item(itemCount, name, description, category, priority );
+    public void addItem(int ID,String name, String description, String category,int priority) {
+        Item newItem = new Item(ID, name, description, category, priority);
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
+        itemsPQ.insert(priority, newItem);
         
-        itemCount++;
 
     }
 
     public void viewItemById(int ID) {
-
+        
     }
 
     public void viewAllItems() {
@@ -102,10 +103,21 @@ public class ItemManager {
     public void searchItemByCategory(String category) {
 
     }
-    public void saveToFile(String filename) {
-
+    public void saveToFile(String filename) throws IOException {
+        File csv = new File("Items.csv");
+        BufferedReader br = new BufferedReader(new FileReader(csv));
+        String line ="";
+        while ((line = br.readLine()) != null) {
+            
+        }
     }
-    public void loadFromFile(String filename) {
-
+    public void loadFromFile(String filename) throws FileNotFoundException {
+        File csv = new File("Items.csv");
+        DLLNode<Item> curr = itemsDll.getHead();
+        PrintWriter out = new PrintWriter(csv);
+        while (curr != null) {
+            out.printf("%D,%S,%S,%S,%D", curr.getElement().getID(),curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory(),curr.getElement().getPriority());
+        }
+        out.close();
     }
 }
