@@ -3,9 +3,9 @@ package item.management.system;
 class Item {
     private Integer ID;
     private String name, desc, category;
-    private boolean priority;
+    private int priority;
 
-    public Item(Integer id, String name, String desc, String category, boolean priority) {
+    public Item(Integer id, String name, String desc, String category, int priority) {
         this.ID = id;
         this.name = name;
         this.desc = desc;
@@ -41,25 +41,38 @@ class Item {
         this.category = newCategory;
     }
 
-    public boolean getPriority() {
+    public int getPriority() {
         return this.priority;
     }
 
-    public void setPriority(boolean newPriority) {
+    public void setPriority(int newPriority) {
         this.priority = newPriority;
     }
 }
 
 public class ItemManager {
-    DLL<Item> itemsDll = new DLL<Item>();
-    BinarySearchTree<Integer, DLLNode<Item>> bst = new BinarySearchTree<Integer, DLLNode<Item>>();
-    
+    private int itemCount =0;
+    private DLL<Item> itemsDll = new DLL<Item>();
+    private BinarySearchTree<Integer, DLLNode<Item>> itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
+    private MyStack<DLLNode<Item>> undoStack;
+    private LinkedPriorityQueue<Item> PQ = new LinkedPriorityQueue<>();
 
-    public void addItem(String name, String description, String category, String priority) {
+    public ItemManager() {
+        this.itemsDll = new DLL<Item>();
+        this.itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
+        this.undoStack = new MyStack<DLLNode<Item>>();
+    }
+
+    public void addItem(String name, String description, String category,int priority) {
+        Item newItem = new Item(itemCount, name, description, category, priority );
+        DLLNode<Item> newNode = itemsDll.add(newItem);
+        itemsBST.insert(newItem.getID(),newNode);
+        
+        itemCount++;
 
     }
 
-    public void viewItemById(int id) {
+    public void viewItemById(int ID) {
 
     }
 
@@ -67,11 +80,11 @@ public class ItemManager {
 
     }
 
-    public void updateItem(int id, String newName, String newDescription, String newCategory, String newPriority) {
+    public void updateItem(int ID, String newName, String newDescription, String newCategory, String newPriority) {
 
     }
 
-    public void deleteItem(int id) {
+    public void deleteItem(int ID) {
 
     }
 

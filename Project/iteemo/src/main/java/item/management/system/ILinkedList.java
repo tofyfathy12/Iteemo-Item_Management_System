@@ -11,7 +11,7 @@ public interface ILinkedList<E> {
     * Inserts the specified element at the end of the list.
     * @param element
     */
-    public void add(E element);
+    public DLLNode<E> add(E element);
     /**
     * @param index
     * @return the element at the specified position in this list.

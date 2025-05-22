@@ -1,7 +1,5 @@
 package item.management.system;
 
-import java.util.Scanner;
-
 class DLLNode<E> {
     private E element;
     private DLLNode<E> next;
@@ -82,18 +80,21 @@ public class DLL<E> implements ILinkedList<E> {
         }
     }
 
-    public void add(E element) {
+    public DLLNode<E> add(E element) {
         if (head == null) {
             DLLNode<E> NewNode = new DLLNode<E>(element, null, null);
             head = NewNode;
             tail = NewNode;
+            size++;
+            return NewNode;
         } else {
             DLLNode<E> NewNode = new DLLNode<E>(element, null, tail);
             tail.setNext(NewNode);
             tail = NewNode;
+            size++;
+            return NewNode;
         }
-        size++;
-
+        
     }
 
     public E get(int index) {
@@ -214,53 +215,4 @@ public class DLL<E> implements ILinkedList<E> {
         }
         System.out.println(']');
     }
-
-    public static void main(String[] args) {
-        try {
-            Scanner sc = new Scanner(System.in);
-            DLL<Integer> inputs = new DLL<Integer>();
-            String sin = sc.nextLine().replaceAll("\\[|\\]", "");
-            String[] stringarr = sin.split(", ");
-            if (!stringarr[0].equals("")) {
-                for (String string : stringarr) {
-                    inputs.add(Integer.parseInt(string));
-                }
-            }
-            String operation = sc.nextLine();
-            if (operation.equals("add")) {
-                inputs.add(sc.nextInt());
-                inputs.printList();
-            } else if (operation.equals("addToIndex")) {
-                inputs.add(sc.nextInt(), sc.nextInt());
-                inputs.printList();
-            } else if (operation.equals("set")) {
-                inputs.set(sc.nextInt(), sc.nextInt());
-                inputs.printList();
-            } else if (operation.equals("clear")) {
-                inputs.clear();
-                inputs.printList();
-            } else if (operation.equals("remove")) {
-                inputs.remove(sc.nextInt());
-                inputs.printList();
-            } else if (operation.equals("isEmpty")) {
-                System.out.println(inputs.isEmpty() ? "True" : "False");
-            } else if (operation.equals("contains")) {
-                System.out.println(inputs.contains(sc.nextInt()) ? "True" : "False");
-            } else if (operation.equals("get")) {
-                System.out.println(inputs.get(sc.nextInt()));
-            } else if (operation.equals("size")) {
-                System.out.println(inputs.size());
-            } else if (operation.equals("sublist")) {
-                DLL<Integer> sub = inputs.sublist(sc.nextInt(), sc.nextInt());
-                sub.printList();
-            } else {
-                sc.close();
-                throw new Error("Invalid Operation");
-            }
-            sc.close();
-        }
-        catch (Error e) {
-            System.out.println("Error");
-        }  
-}
 }
