@@ -81,7 +81,6 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
     }
 
     public void insert(TKey key, Value value) {
-        this.size++;
         insert(root, key, value);
     }
 
@@ -144,7 +143,6 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
     }
 
     public void delete(TKey key) {
-        this.size--;
         root = delete(root, key);
     }
 

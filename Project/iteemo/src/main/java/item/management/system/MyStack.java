@@ -32,7 +32,6 @@ class Node<E> {
 public class MyStack<E> implements IStack<E> {
     private int size = 0;
     private Node<E> top = null;
-
     public E pop() {
         if (this.isEmpty()) {
             throw new EmptyStackException();
