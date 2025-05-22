@@ -3,12 +3,14 @@ package item.management.system;
 class Item {
     private Integer ID;
     private String name, desc, category;
+    private boolean priority;
 
-    public Item(Integer id, String name, String desc, String category) {
+    public Item(Integer id, String name, String desc, String category, boolean priority) {
         this.ID = id;
         this.name = name;
         this.desc = desc;
         this.category = category;
+        this.priority = priority;
     }
 
     public Integer getID() {
@@ -37,6 +39,14 @@ class Item {
 
     public void setCategory(String newCategory) {
         this.category = newCategory;
+    }
+
+    public boolean getPriority() {
+        return this.priority;
+    }
+
+    public void setPriority(boolean newPriority) {
+        this.priority = newPriority;
     }
 }
 
