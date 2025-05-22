@@ -30,7 +30,7 @@ class PQNode<E> {
 
 public class LinkedPriorityQueue<E> implements IPriorityQueue<E> {
     private int Qsize = 0;
-    private PQNode<E> head = null, tail = null;
+    private PQNode<E> head = null;
 
     public boolean isEmpty() {
         return (Qsize == 0);
