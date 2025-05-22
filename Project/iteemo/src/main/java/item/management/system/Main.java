@@ -40,6 +40,9 @@ class Item {
 }
 
 public class Main {
+
+    BinarySearchTree
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }
