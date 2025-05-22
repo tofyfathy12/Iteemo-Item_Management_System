@@ -52,7 +52,7 @@ class Item {
     }
 }
 
-public class ItemManager {
+public class ItemManager implements IItemManager{
     private DLL<Item> itemsDll = new DLL<Item>();
     private BinarySearchTree<Integer, DLLNode<Item>> itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
     private MyStack<DLLNode<Item>> undoStack;
@@ -64,7 +64,7 @@ public class ItemManager {
         this.undoStack = new MyStack<DLLNode<Item>>();
     }
 
-    public void addItem(int ID,String name, String description, String category,int priority) {
+    public void addItem(int ID, String name, String description, String category, int priority) {
         Item newItem = new Item(ID, name, description, category, priority);
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
@@ -96,8 +96,18 @@ public class ItemManager {
         System.out.println("--------------------------------------------------\n");
     }
 
-    public void updateItem(int ID, String newName, String newDescription, String newCategory, String newPriority) {
-
+    public void updateItem(int ID, String newName, String newDescription, String newCategory, int newPriority) {
+        DLLNode<Item> targetNode = itemsBST.get(ID);
+        Item item = targetNode.getElement();
+        if (item != null) {
+            item.setName(newName);
+            item.setDesc(newDescription);
+            item.setCategory(newCategory);
+            item.setPriority(newPriority);
+        }
+        else {
+            System.out.println("Item with ID = " + ID + " is not found !!");
+        }
     }
 
     public void deleteItem(int ID) {
