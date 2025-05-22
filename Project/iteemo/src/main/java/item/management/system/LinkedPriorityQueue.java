@@ -1,9 +1,11 @@
 package item.management.system;
+
 class EmptyQueueException extends Exception {
     public EmptyQueueException(String message) {
         super(message);
     }
 }
+
 class PQNode<E> {
     private int key;
     private E data;
