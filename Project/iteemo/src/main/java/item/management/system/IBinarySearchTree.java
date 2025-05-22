@@ -1,3 +1,4 @@
+package item.management.system;
 
 public interface IBinarySearchTree<TKey extends Comparable<TKey>, Value> {
     // Checks if the tree is empty

@@ -1,3 +1,5 @@
+package item.management.system;
+
 import java.util.Scanner;
 
 class DLLNode {

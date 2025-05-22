@@ -41,7 +41,7 @@ class Item {
 
 public class Main {
 
-    BinarySearchTree
+    BinarySearchTree bst;
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
