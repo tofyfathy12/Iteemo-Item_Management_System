@@ -1,16 +1,18 @@
 package item.management.system;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public interface IItemManager {
-    void addItem(String name, String description, String category, String priority);
+    void addItem(int ID, String name, String description, String category, int priority);
     void viewItemById(int id);
     void viewAllItems();
-    void updateItem(int id, String newName, String newDescription, String newCategory, String newPriority);
-    void deleteItem(int id);
+    void updateItem(int ID, String newName, String newDescription, String newCategory, int newPriority);
+    void deleteItem(int ID);
     void undoLastDeletion();
-    void processNextPriorityItem(); // Dequeue next urgent/normal item
     void searchItemByName(String name);
     void searchItemByCategory(String category);
-    void saveToFile(String filename);
-    void loadFromFile(String filename);
+    void saveToFile(String filename) throws IOException;
+    void loadFromFile(String filename) throws FileNotFoundException;
 
 }
