@@ -1,63 +1,61 @@
 package item.management.system;
 
-import java.util.regex.*;
-import java.util.Scanner;
 import java.util.EmptyStackException;
 
-class Node {
-    private Object data;
-    private Node next;
+class Node<E> {
+    private E data;
+    private Node<E> next;
 
-    public Node(Object data, Node next) {
+    public Node(E data, Node<E> next) {
         this.data = data;
         this.next = next;
     }
 
-    public Object getData() {
+    public E getData() {
         return data;
     }
 
-    public Node getNext() {
+    public Node<E> getNext() {
         return next;
     }
 
-    public void setData(Object newData) {
+    public void setData(E newData) {
         data = newData;
     }
 
-    public void setNext(Node newNext) {
+    public void setNext(Node<E> newNext) {
         next = newNext;
     }
 }
 
 
-public class MyStack implements IStack {
+public class MyStack<E> implements IStack<E> {
     private int size = 0;
-    private Node top = null;
-    public Object pop() {
+    private Node<E> top = null;
+    public E pop() {
         if (this.isEmpty()) {
             throw new EmptyStackException();
         }
-        Node poppedNode = top;
+        Node<E> poppedNode = top;
         top = top.getNext();
         poppedNode.setNext(null);
         size--;
         return poppedNode.getData();
     }
 
-    public Object peek() {
+    public E peek() {
         if (this.isEmpty()) {
             throw new EmptyStackException();
         }
         return top.getData();
     }
 
-    public void push(Object element) {
+    public void push(E element) {
         if (top == null) {
-            top = new Node(element, null);
+            top = new Node<E>(element, null);
         }
         else {
-            Node newNode = new Node(element, top);
+            Node<E> newNode = new Node<E>(element, top);
             top = newNode;
         }
         size++;
@@ -72,7 +70,7 @@ public class MyStack implements IStack {
     }
 
     public void printStack() {
-        Node head = top;
+        Node<E> head = top;
         System.out.print("[");
         while (head != null) {
             System.out.print(head.getData());
@@ -82,63 +80,5 @@ public class MyStack implements IStack {
             head = head.getNext();
         }
         System.out.println("]");
-    }
-
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String input = scan.nextLine();
-
-        Pattern p = Pattern.compile("\\[(.*)\\]");
-        Matcher m = p.matcher(input);
-
-        MyStack mystack = new MyStack();
-        try {
-            if (m.matches()) {
-                char[] listCharArray = m.group(1).replaceAll(", *", "_").toCharArray();
-                int i = listCharArray.length - 1;
-                while (i >= 0) {
-                    String numString = "";
-                    while (i >= 0 && (Character.isDigit(listCharArray[i]) || listCharArray[i] == '-')) {
-                        numString += listCharArray[i];
-                        i--;
-                    }
-                    String orgNumString = "";
-                    char[] numChars = numString.toCharArray();
-                    for (int j = numChars.length - 1; j >= 0 ; j--) {
-                        orgNumString += numChars[j];
-                    }
-                    mystack.push(Integer.parseInt(orgNumString));
-                    i--;
-                }
-            }
-    
-            String op = scan.nextLine();
-            int element;
-            switch (op) {
-                case "push":
-                    element = scan.nextInt();
-                    mystack.push(element);
-                    mystack.printStack();
-                    break;
-                case "pop":
-                    element =(int)mystack.pop();
-                    mystack.printStack();
-                    break;
-                case "peek":
-                    System.out.println(mystack.peek());
-                    break;
-                case "isEmpty":
-                    String s = (mystack.isEmpty()) ? "True" : "False";
-                    System.out.println(s);
-                    break;
-                case "size":
-                    System.out.println(mystack.size());
-                    break;
-            }
-            scan.close();
-        }
-        catch (Exception e) {
-            System.out.println("Error");
-        }
     }
 }

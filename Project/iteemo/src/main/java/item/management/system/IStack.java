@@ -1,24 +1,24 @@
 package item.management.system;
 
-interface IStack {
+interface IStack<E> {
   
     /*** Removes the element at the top of stack and returnsthat element.
     * @return top of stack element, or through exception if empty
     */
     
-    public Object pop();
+    public E pop();
     
     /*** Get the element at the top of stack without removing it from stack.
     * @return top of stack element, or through exception if empty
     */
     
-    public Object peek();
+    public E peek();
     
     /*** Pushes an item onto the top of this stack.
-    * @param object to insert*
+    * @param E to insert*
     */
     
-    public void push(Object element);
+    public void push(E element);
     
     /*** Tests if this stack is empty
     * @return true if stack empty
