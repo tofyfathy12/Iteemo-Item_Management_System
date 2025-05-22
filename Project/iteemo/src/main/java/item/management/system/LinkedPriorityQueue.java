@@ -75,4 +75,7 @@ public class LinkedPriorityQueue<E> implements IPriorityQueue<E> {
         }
     }
 
+    public PQNode <E> getHead() {
+        return head;
+    }
 }
