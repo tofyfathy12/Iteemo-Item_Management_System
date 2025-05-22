@@ -66,7 +66,7 @@ public class ItemManager {
     }
 
     public void viewItemById(int id) {
-
+        
     }
 
     public void viewAllItems() {
@@ -94,7 +94,15 @@ public class ItemManager {
     }
 
     public void undoLastDeletion() {
+        DLLNode<Item> lastDeleted = undoStack.pop();
 
+        itemsBST.insert(lastDeleted.getElement().getID(), lastDeleted);
+
+        DLLNode<Item> prev = lastDeleted.getPrev(), next = lastDeleted.getNext();
+        if (prev != null)
+            prev.setNext(lastDeleted);
+        if (next != null)
+            next.setPrev(lastDeleted);
     }
 
     public void processNextPriorityItem() { // Dequeue next urgent/normal item
