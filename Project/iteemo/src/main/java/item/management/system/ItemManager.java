@@ -89,6 +89,7 @@ public class ItemManager {
             prev.setNext(next);
         if (next != null)
             next.setPrev(prev);
+        itemsDll.size--;
         undoStack.push(deletedItemNode);
     }
 
