@@ -63,6 +63,11 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
     private Node<TKey, Value> root;
     private int size;
 
+    public BinarySearchTree() {
+        this.root = null;
+        this.size = 0;
+    }
+
     public Node<TKey, Value> root() {
         return root;
     }

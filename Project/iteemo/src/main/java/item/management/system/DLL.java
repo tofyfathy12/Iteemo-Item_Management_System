@@ -2,57 +2,63 @@ package item.management.system;
 
 import java.util.Scanner;
 
-class DLLNode {
-    private Object element;
-    private DLLNode next;
-    private DLLNode prev;
+class DLLNode<E> {
+    private E element;
+    private DLLNode<E> next;
+    private DLLNode<E> prev;
 
-    public DLLNode(Object Data, DLLNode n, DLLNode p) {
+    public DLLNode(E Data, DLLNode<E> n, DLLNode<E> p) {
         element = Data;
         next = n;
         prev = p;
     }
 
-    public Object getElement() {
+    public E getElement() {
         return element;
     }
 
-    public DLLNode getNext() {
+    public DLLNode<E> getNext() {
         return next;
     }
 
-    public DLLNode getPrev() {
+    public DLLNode<E> getPrev() {
         return prev;
     }
 
-    public void setElement(Object newElem) {
+    public void setElement(E newElem) {
         element = newElem;
     }
 
-    public void setNext(DLLNode newNext) {
+    public void setNext(DLLNode<E> newNext) {
         next = newNext;
     }
 
-    public void setPrev(DLLNode newPrev) {
+    public void setPrev(DLLNode<E> newPrev) {
         prev = newPrev;
     }
 
 }
 
-public class DLL implements ILinkedList {
-    private DLLNode head = null;
-    private DLLNode tail = head;
-    int size = 0;
-    public DLLNode getHead(){
+public class DLL<E> implements ILinkedList<E> {
+    private DLLNode<E> head;
+    private DLLNode<E> tail;
+    int size;
+
+    public DLL() {
+        this.head = this.tail = null;
+        this.size = 0;
+    }
+
+    public DLLNode<E> getHead(){
         return head;
     }
-    public DLLNode getTail(){
+    public DLLNode<E> getTail(){
         return tail;
     }
-    public void add(int index, Object element) {
-        DLLNode curr = head;
+    public void add(int index, E element) {
+        DLLNode<E> curr = head;
         if (index == 0) {
-            DLLNode NewNode = new DLLNode(element, head, null);
+            DLLNode<E> NewNode = new DLLNode<E>(element, head, null);
             if (curr != null) {
                 curr.setPrev(NewNode);
             }
@@ -62,9 +68,9 @@ public class DLL implements ILinkedList {
             for (int i = 0; i < index - 1; i++) {
                 curr = curr.getNext();
             }
-            DLLNode NewNode = new DLLNode(element, curr.getNext(), curr);
+            DLLNode<E> NewNode = new DLLNode<E>(element, curr.getNext(), curr);
             curr.setNext(NewNode);
-            DLLNode nextNode = NewNode.getNext();
+            DLLNode<E> nextNode = NewNode.getNext();
             if (nextNode != null) {
                 nextNode.setPrev(NewNode);
             }
@@ -76,13 +82,13 @@ public class DLL implements ILinkedList {
         }
     }
 
-    public void add(Object element) {
+    public void add(E element) {
         if (head == null) {
-            DLLNode NewNode = new DLLNode(element, null, null);
+            DLLNode<E> NewNode = new DLLNode<E>(element, null, null);
             head = NewNode;
             tail = NewNode;
         } else {
-            DLLNode NewNode = new DLLNode(element, null, tail);
+            DLLNode<E> NewNode = new DLLNode<E>(element, null, tail);
             tail.setNext(NewNode);
             tail = NewNode;
         }
@@ -90,8 +96,8 @@ public class DLL implements ILinkedList {
 
     }
 
-    public Object get(int index) {
-        DLLNode curr = head;
+    public E get(int index) {
+        DLLNode<E> curr = head;
         if (index >=0 && size > index && head != null) {
             for (int i = 0; i < index; i++) {
                 curr = curr.getNext();
@@ -102,8 +108,8 @@ public class DLL implements ILinkedList {
         }
     }
 
-    public void set(int index, Object element) {
-        DLLNode curr = head;
+    public void set(int index, E element) {
+        DLLNode<E> curr = head;
         if (index >=0 && size > index && head != null) {
             for (int i = 0; i < index; i++) {
                 curr = curr.getNext();
@@ -128,8 +134,8 @@ public class DLL implements ILinkedList {
     }
 
     public void remove(int index) {
-        DLLNode curr = head;
-        DLLNode prev = null;
+        DLLNode<E> curr = head;
+        DLLNode<E> prev = null;
         if (head == null) {
             return;
         }
@@ -161,10 +167,10 @@ public class DLL implements ILinkedList {
         return size;
     }
 
-    public DLL sublist(int fromIndex, int toIndex) {
+    public DLL<E> sublist(int fromIndex, int toIndex) {
         if (toIndex >=0 && fromIndex >=0 && fromIndex < size && toIndex < size && fromIndex <= toIndex) {
-            DLL subDll = new DLL();
-            DLLNode curr = head;
+            DLL<E> subDll = new DLL<E>();
+            DLLNode<E> curr = head;
             for (int i = 0; i < fromIndex; i++) {
                 curr = curr.getNext();
             }
@@ -180,9 +186,9 @@ public class DLL implements ILinkedList {
 
     }
 
-    public boolean contains(Object o) {
-        DLLNode curr1 = head;
-        DLLNode curr2 = tail;
+    public boolean contains(E o) {
+        DLLNode<E> curr1 = head;
+        DLLNode<E> curr2 = tail;
         while (curr1 != null && curr1 != null && curr2 != curr1.getPrev()) {
             if (curr1.getElement() == o || curr2.getElement() == o) {
                 return true;
@@ -198,7 +204,7 @@ public class DLL implements ILinkedList {
     public void printList() {
 
         System.out.print('[');
-        DLLNode curr = head;
+        DLLNode<E> curr = head;
         while (curr != null) {
             System.out.print(curr.getElement());
             if (curr.getNext() != null) {
@@ -212,7 +218,7 @@ public class DLL implements ILinkedList {
     public static void main(String[] args) {
         try {
             Scanner sc = new Scanner(System.in);
-            DLL inputs = new DLL();
+            DLL<Integer> inputs = new DLL<Integer>();
             String sin = sc.nextLine().replaceAll("\\[|\\]", "");
             String[] stringarr = sin.split(", ");
             if (!stringarr[0].equals("")) {
@@ -245,7 +251,7 @@ public class DLL implements ILinkedList {
             } else if (operation.equals("size")) {
                 System.out.println(inputs.size());
             } else if (operation.equals("sublist")) {
-                DLL sub = inputs.sublist(sc.nextInt(), sc.nextInt());
+                DLL<Integer> sub = inputs.sublist(sc.nextInt(), sc.nextInt());
                 sub.printList();
             } else {
                 sc.close();

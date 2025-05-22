@@ -1,16 +1,17 @@
 package item.management.system;
 
 class Item {
-    private String ID, name, desc, category;
+    private Integer ID;
+    private String name, desc, category;
 
-    public Item(String id, String name, String desc, String category) {
+    public Item(Integer id, String name, String desc, String category) {
         this.ID = id;
         this.name = name;
         this.desc = desc;
         this.category = category;
     }
 
-    public String getID() {
+    public Integer getID() {
         return this.ID;
     }
 
@@ -41,7 +42,8 @@ class Item {
 
 public class Main {
 
-    BinarySearchTree bst;
+    DLL itemsDll = new DLL();
+    BinarySearchTree<Integer, DLLNode> bst = new BinarySearchTree<Integer, DLLNode>();
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
