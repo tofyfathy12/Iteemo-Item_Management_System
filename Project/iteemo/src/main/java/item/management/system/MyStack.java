@@ -2,11 +2,11 @@ package item.management.system;
 
 import java.util.EmptyStackException;
 
-class Node<E> {
+class SNode<E> {
     private E data;
-    private Node<E> next;
+    private SNode<E> next;
 
-    public Node(E data, Node<E> next) {
+    public SNode(E data, SNode<E> next) {
         this.data = data;
         this.next = next;
     }
@@ -15,7 +15,7 @@ class Node<E> {
         return data;
     }
 
-    public Node<E> getNext() {
+    public SNode<E> getNext() {
         return next;
     }
 
@@ -23,7 +23,7 @@ class Node<E> {
         data = newData;
     }
 
-    public void setNext(Node<E> newNext) {
+    public void setNext(SNode<E> newNext) {
         next = newNext;
     }
 }
@@ -31,12 +31,12 @@ class Node<E> {
 
 public class MyStack<E> implements IStack<E> {
     private int size = 0;
-    private Node<E> top = null;
+    private SNode<E> top = null;
     public E pop() {
         if (this.isEmpty()) {
             throw new EmptyStackException();
         }
-        Node<E> poppedNode = top;
+        SNode<E> poppedNode = top;
         top = top.getNext();
         poppedNode.setNext(null);
         size--;
@@ -52,10 +52,10 @@ public class MyStack<E> implements IStack<E> {
 
     public void push(E element) {
         if (top == null) {
-            top = new Node<E>(element, null);
+            top = new SNode<E>(element, null);
         }
         else {
-            Node<E> newNode = new Node<E>(element, top);
+            SNode<E> newNode = new SNode<E>(element, top);
             top = newNode;
         }
         size++;
@@ -70,7 +70,7 @@ public class MyStack<E> implements IStack<E> {
     }
 
     public void printStack() {
-        Node<E> head = top;
+        SNode<E> head = top;
         System.out.print("[");
         while (head != null) {
             System.out.print(head.getData());
