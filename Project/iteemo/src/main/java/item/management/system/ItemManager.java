@@ -69,8 +69,6 @@ public class ItemManager {
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
         itemsPQ.insert(priority, newItem);
-        
-
     }
 
     public void viewItemById(int ID) {
