@@ -11,7 +11,7 @@ public interface IBinarySearchTree<TKey extends Comparable<TKey>, Value> {
     void insert(TKey key, Value value);
 
     // Deletes a node from the tree
-    void delete(TKey key);
+    void delete(TKey key, Value deletedNode);
 
     // Searches for a key in the tree
     boolean contains(TKey key);
