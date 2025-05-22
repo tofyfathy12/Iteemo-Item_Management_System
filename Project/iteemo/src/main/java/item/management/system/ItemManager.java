@@ -101,15 +101,27 @@ public class ItemManager {
 
     }
     public void searchItemByCategory(String category) {
-
+        DLLNode<Item> curr = itemsDll.getHead();
+        int ResultsCount =0;
+        while (curr!=null) {
+            if (category.equals(curr.getElement().getCategory())) {
+                if (ResultsCount==0) {
+                    System.out.println("");
+                }
+                ResultsCount++;
+                System.out.printf(ResultsCount+". "+"ID: "+curr.getElement().getID()+"");
+            }
+        }
     }
     public void saveToFile(String filename) throws IOException {
         File csv = new File("Items.csv");
         BufferedReader br = new BufferedReader(new FileReader(csv));
         String line ="";
         while ((line = br.readLine()) != null) {
-            
+            String [] values = line.split(",");
+            addItem(Integer.parseInt(values[0]), values[1], values[2], values[3], Integer.parseInt(values[4]));
         }
+        br.close();
     }
     public void loadFromFile(String filename) throws FileNotFoundException {
         File csv = new File("Items.csv");
