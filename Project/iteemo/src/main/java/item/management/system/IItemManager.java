@@ -1,6 +1,6 @@
 package item.management.system;
 
-public interface ItemManager {
+public interface IItemManager {
     void addItem(String name, String description, String category, String priority);
     void viewItemById(int id);
     void viewAllItems();
