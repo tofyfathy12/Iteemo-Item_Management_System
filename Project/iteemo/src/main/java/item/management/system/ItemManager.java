@@ -51,10 +51,16 @@ class Item {
 }
 
 public class ItemManager {
-    DLL<Item> itemsDll = new DLL<Item>();
-    BinarySearchTree<Integer, DLLNode<Item>> bst = new BinarySearchTree<Integer, DLLNode<Item>>();
-    
+    private DLL<Item> itemsDll;
+    private BinarySearchTree<Integer, DLLNode<Item>> bst;
+    private MyStack<DLLNode<Item>> delStack;
 
+    public ItemManager() {
+        this.itemsDll = new DLL<Item>();
+        this.bst = new BinarySearchTree<Integer, DLLNode<Item>>();
+        this.delStack = new MyStack<DLLNode<Item>>();
+    }
+    
     public void addItem(String name, String description, String category, String priority) {
 
     }
