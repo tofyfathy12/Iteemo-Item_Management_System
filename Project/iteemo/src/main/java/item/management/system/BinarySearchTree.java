@@ -142,23 +142,22 @@ public class BinarySearchTree<TKey extends Comparable<TKey>, Value> implements I
         return x;
     }
 
-    public void delete(TKey key, Value deletedNode) {
-        root = delete(root, key, deletedNode);
+    public void delete(TKey key) {
+        root = delete(root, key);
     }
 
-    private Node<TKey, Value> delete(Node<TKey, Value> v, TKey key, Value deletedNode) {
+    private Node<TKey, Value> delete(Node<TKey, Value> v, TKey key) {
         if (v == null) {
             return null;
         }
         int cmp = key.compareTo(v.getKey());
         if (cmp < 0) {
-            v.setLeft(delete(v.getLeft(), key, deletedNode));
+            v.setLeft(delete(v.getLeft(), key));
         }
         else if (cmp > 0) {
-            v.setRight(delete(v.getRight(), key, deletedNode));
+            v.setRight(delete(v.getRight(), key));
         }
         else {
-            deletedNode = v.getValue();
             if (v.getLeft() == null)
                 return v.getRight();
             if (v.getRight() == null)

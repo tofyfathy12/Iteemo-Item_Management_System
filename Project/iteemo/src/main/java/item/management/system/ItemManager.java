@@ -78,9 +78,13 @@ public class ItemManager {
     }
 
     public void deleteItem(int id) {
-        DLLNode<Item> deletedItemNode = null;
-        itemsBST.delete(id, deletedItemNode);
-        DLLNode<Item> prev = deletedItemNode.getPrev(), next = deletedItemNode.getNext();
+        DLLNode<Item> deletedItemNode = itemsBST.get(id);
+        itemsBST.delete(id);
+        DLLNode<Item> prev = null, next = null;
+        if (deletedItemNode != null) {
+            prev = deletedItemNode.getPrev();
+            next = deletedItemNode.getNext();
+        }
         if (prev != null)
             prev.setNext(next);
         if (next != null)
