@@ -96,14 +96,18 @@ public class ItemManager implements IItemManager{
         System.out.println("--------------------------------------------------\n");
     }
 
-    public void updateItem(int ID, String newName, String newDescription, String newCategory, int newPriority) {
+    public void updateItem(int ID, String newName, String newDescription, String newCategory, Integer newPriority) {
         DLLNode<Item> targetNode = itemsBST.get(ID);
         Item item = targetNode.getElement();
         if (item != null) {
-            item.setName(newName);
-            item.setDesc(newDescription);
-            item.setCategory(newCategory);
-            item.setPriority(newPriority);
+            if (newName != null)
+                item.setName(newName);
+            if (newDescription != null)
+                item.setDesc(newDescription);
+            if (newCategory != null)
+                item.setCategory(newCategory);
+            if (newPriority != null)
+                item.setPriority(newPriority);
         }
         else {
             System.out.println("Item with ID = " + ID + " is not found !!");

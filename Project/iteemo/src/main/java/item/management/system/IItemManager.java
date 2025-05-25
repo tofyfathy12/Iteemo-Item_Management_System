@@ -7,7 +7,7 @@ public interface IItemManager {
     void addItem(int ID, String name, String description, String category, int priority);
     void viewItemById(int id);
     void viewAllItems();
-    void updateItem(int ID, String newName, String newDescription, String newCategory, int newPriority);
+    void updateItem(int ID, String newName, String newDescription, String newCategory, Integer newPriority);
     void deleteItem(int ID);
     void undoLastDeletion();
     void searchItemByName(String name);
