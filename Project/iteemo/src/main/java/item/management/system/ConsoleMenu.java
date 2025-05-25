@@ -6,12 +6,14 @@ public class ConsoleMenu {
     // ANSI escape codes for colors and styling
     public final String RESET       = "\u001B[0m";
     public final String BRIGHT      = "\u001B[1m";
-    public final String UNDERSCORE  = "\u001
+    public final String UNDERSCORE  = "\u001B[4m";
+
     public final String FG_CYAN     = "\u001B[36m";
     public final String FG_YELLOW   = "\u001B[33m";
     public final String FG_GREEN    = "\u001B[32m";
-    public final String FG_RED      = "\u001B
-    // Box- characters (UTF-8)
+    public final String FG_RED      = "\u001B[31m";
+
+    // Box-drawing characters (UTF-8)
     public final String HORIZONTAL  = "\u2500";
     public final String VERTICAL    = "\u2502";
     public final String TOP_LEFT    = "\u250C";
