@@ -75,19 +75,19 @@ public class ConsoleMenu {
             } else if (input == '\n' || input == '\r') {
                 switch (selected) {
                     case 0:
-                        System.out.println(FG_GREEN + "Starting a new game..." + RESET);
+                        System.out.println(menu.FG_GREEN + "Starting a new game..." + menu.RESET);
                         menu.pause();
                         break;
                     case 1:
-                        System.out.println(FG_GREEN + "Loading game..." + RESET);
+                        System.out.println(menu.FG_GREEN + "Loading game..." + menu.RESET);
                         menu.pause();
                         break;
                     case 2:
-                        System.out.println(FG_GREEN + "Opening settings..." + RESET);
+                        System.out.println(menu.FG_GREEN + "Opening settings..." + menu.RESET);
                         menu.pause();
                         break;
                     case 3:
-                        System.out.println(FG_RED + "Exiting..." + RESET);
+                        System.out.println(menu.FG_RED + "Exiting..." + menu.RESET);
                         // Show cursor
                         System.out.print("\u001B[?25h");
                         System.out.flush();
