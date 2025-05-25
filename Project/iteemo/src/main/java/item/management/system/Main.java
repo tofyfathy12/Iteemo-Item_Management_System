@@ -43,8 +43,6 @@ public class Main {
                 int viewId = scanner.nextInt();
                 
                 manager.updateItem(viewId, name, description, category, priority);
-
-
     }
 }
 }
