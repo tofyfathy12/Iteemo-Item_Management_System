@@ -3,6 +3,8 @@ package item.management.system;
 import java.io.IOException;
 
 public class ConsoleMenu {
+    public String[] options = {"Add Item", "Delete Item", "Update Item", "View Items", "Search Items", "Undo Last Deletion", "Exit"};
+    public int optionsNum = options.length;
     // ANSI escape codes for colors and styling
     public final String RESET       = "\u001B[0m";
     public final String BRIGHT      = "\u001B[1m";
@@ -33,16 +35,14 @@ public class ConsoleMenu {
     }
 
     public void printMenu(int selected) {
-        String[] options = {"Start New Game", "Load Game", "Settings", "Exit"};
-        int n = options.length;
-
         clearScreen();
+        String consoleTitle = "COOL CONSOLE MENU";
         System.out.print(BRIGHT + FG_CYAN);
         System.out.printf("%s%s%s\n", TOP_LEFT, HORIZONTAL.repeat(20), TOP_RIGHT);
-        System.out.printf("%s  COOL CONSOLE MENU  %s\n", VERTICAL, VERTICAL);
+        System.out.printf("%s  %s  %s\n", VERTICAL, consoleTitle, VERTICAL);
         System.out.printf("%s%s%s\n" + RESET, BOTTOM_LEFT, HORIZONTAL.repeat(20), BOTTOM_RIGHT);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < optionsNum; i++) {
             if (i == selected) {
                 System.out.printf("  %s> %s%s%s\n" + RESET,
                         FG_YELLOW, UNDERSCORE, options[i], RESET);
@@ -71,24 +71,36 @@ public class ConsoleMenu {
             }
 
             if (input == 'w' || input == 'W') {
-                selected = (selected - 1 + 4) % 4;
+                selected = (selected - 1 + menu.optionsNum) % menu.optionsNum;
             } else if (input == 's' || input == 'S') {
-                selected = (selected + 1) % 4;
+                selected = (selected + 1) % menu.optionsNum;
             } else if (input == '\n' || input == '\r') {
                 switch (selected) {
                     case 0:
-                        System.out.println(menu.FG_GREEN + "Starting a new game..." + menu.RESET);
+                        System.out.println(menu.FG_GREEN + "Adding a new Item..." + menu.RESET);
                         menu.pause();
                         break;
                     case 1:
-                        System.out.println(menu.FG_GREEN + "Loading game..." + menu.RESET);
+                        System.out.println(menu.FG_GREEN + "Deleting an Item..." + menu.RESET);
                         menu.pause();
                         break;
                     case 2:
-                        System.out.println(menu.FG_GREEN + "Opening settings..." + menu.RESET);
+                        System.out.println(menu.FG_GREEN + "Updating an Item..." + menu.RESET);
                         menu.pause();
                         break;
                     case 3:
+                        System.out.println(menu.FG_GREEN + "Viewing Items..." + menu.RESET);
+                        menu.pause();
+                        break;
+                    case 4:
+                        System.out.println(menu.FG_GREEN + "Searching Items..." + menu.RESET);
+                        menu.pause();
+                        break;
+                    case 5:
+                        System.out.println(menu.FG_GREEN + "Undoing last Deletion..." + menu.RESET);
+                        menu.pause();
+                        break;
+                    case 6:
                         System.out.println(menu.FG_RED + "Exiting..." + menu.RESET);
                         // Show cursor
                         System.out.print("\u001B[?25h");
