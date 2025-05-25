@@ -4,35 +4,33 @@ import java.io.IOException;
 
 public class ConsoleMenu {
     // ANSI escape codes for colors and styling
-    public static final String RESET       = "\u001B[0m";
-    public static final String BRIGHT      = "\u001B[1m";
-    public static final String UNDERSCORE  = "\u001B[4m";
+    public final String RESET       = "\u001B[0m";
+    public final String BRIGHT      = "\u001B[1m";
+    public final String UNDERSCORE  = "\u001
+    public final String FG_CYAN     = "\u001B[36m";
+    public final String FG_YELLOW   = "\u001B[33m";
+    public final String FG_GREEN    = "\u001B[32m";
+    public final String FG_RED      = "\u001B
+    // Box- characters (UTF-8)
+    public final String HORIZONTAL  = "\u2500";
+    public final String VERTICAL    = "\u2502";
+    public final String TOP_LEFT    = "\u250C";
+    public final String TOP_RIGHT   = "\u2510";
+    public final String BOTTOM_LEFT = "\u2514";
+    public final String BOTTOM_RIGHT= "\u2518";
 
-    public static final String FG_CYAN     = "\u001B[36m";
-    public static final String FG_YELLOW   = "\u001B[33m";
-    public static final String FG_GREEN    = "\u001B[32m";
-    public static final String FG_RED      = "\u001B[31m";
-
-    // Box-drawing characters (UTF-8)
-    public static final String HORIZONTAL  = "\u2500";
-    public static final String VERTICAL    = "\u2502";
-    public static final String TOP_LEFT    = "\u250C";
-    public static final String TOP_RIGHT   = "\u2510";
-    public static final String BOTTOM_LEFT = "\u2514";
-    public static final String BOTTOM_RIGHT= "\u2518";
-
-    private static void clearScreen() {
+    public void clearScreen() {
         // ANSI clear screen
         System.out.print("\033[2J\033[H");
         System.out.flush();
     }
 
-    private static void pause() throws IOException {
+    public void pause() throws IOException {
         System.out.print("\nPress ENTER to continue...");
         System.in.read();
     }
 
-    private static void printMenu(int selected) {
+    public void printMenu(int selected) {
         String[] options = {"Start New Game", "Load Game", "Settings", "Exit"};
         int n = options.length;
 
@@ -53,15 +51,16 @@ public class ConsoleMenu {
     }
 
     public static void main(String[] args) throws IOException {
+        ConsoleMenu menu = new ConsoleMenu();
         int selected = 0;
-        clearScreen();
+        menu.clearScreen();
 
         // Hide cursor
         System.out.print("\u001B[?25l");
         System.out.flush();
 
         while (true) {
-            printMenu(selected);
+            menu.printMenu(selected);
 
             int input = System.in.read();
             // consume newline or other leftover
@@ -77,15 +76,15 @@ public class ConsoleMenu {
                 switch (selected) {
                     case 0:
                         System.out.println(FG_GREEN + "Starting a new game..." + RESET);
-                        pause();
+                        menu.pause();
                         break;
                     case 1:
                         System.out.println(FG_GREEN + "Loading game..." + RESET);
-                        pause();
+                        menu.pause();
                         break;
                     case 2:
                         System.out.println(FG_GREEN + "Opening settings..." + RESET);
-                        pause();
+                        menu.pause();
                         break;
                     case 3:
                         System.out.println(FG_RED + "Exiting..." + RESET);
