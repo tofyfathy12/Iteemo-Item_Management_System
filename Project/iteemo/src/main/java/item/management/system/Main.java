@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 
 public class Main {
-<<<<<<< HEAD
-    
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ItemManager manager = new ItemManager();
         manager.loadFromFile();
