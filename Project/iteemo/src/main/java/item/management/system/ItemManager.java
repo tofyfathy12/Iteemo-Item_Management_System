@@ -181,24 +181,40 @@ public class ItemManager implements IItemManager{
             System.out.println("--------------------------------------------------");
         }
     }
-    public void saveToFile(String filename) throws IOException {
+    public void loadFromFile() throws IOException {
         File csv = new File("Items.csv");
+        if (!csv.exists()) {
+            throw new FileNotFoundException("File not found: " + csv.getAbsolutePath());
+        }
         BufferedReader br = new BufferedReader(new FileReader(csv));
         String line = "";
-        while ((line = br.readLine()) != null) {
+        try {
+            while ((line = br.readLine()) != null) {
             String[] values = line.split(",");
             addItem(Integer.parseInt(values[0]), values[1], values[2], values[3], Integer.parseInt(values[4]));
         }
-        br.close();
-    }
-    public void loadFromFile(String filename) throws FileNotFoundException {
-        File csv = new File("Items.csv");
-        DLLNode<Item> curr = itemsDll.getHead();
-        PrintWriter out = new PrintWriter(csv);
-        while (curr != null) {
-            out.printf("%D,%S,%S,%S,%D", curr.getElement().getID(), curr.getElement().getName(),
-                    curr.getElement().getDesc(), curr.getElement().getCategory(), curr.getElement().getPriority());
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        } finally {
+            br.close();
         }
-        out.close();
+        
+    }
+    public void saveToFile (Item item) throws IOException {
+        try (FileWriter fileWriter = new FileWriter("Items.csv", true)) {
+            fileWriter.write(item.getID() + "," + item.getName() + "," + item.getDesc() + "," + item.getCategory() + "," + item.getPriority() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void printMenu() {
+        System.out.println("1. Add Item");
+        System.out.println("2. Delete Item");
+        System.out.println("3. Update Item");
+        System.out.println("4. View Items");
+        System.out.println("5. Search Items");
+        System.out.println("6. Undo Last Deletion");
+        System.out.println("7. Exit");
+        System.out.print("Enter your choice: ");
     }
 }

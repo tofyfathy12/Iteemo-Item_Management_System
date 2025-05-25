@@ -12,6 +12,6 @@ public interface IItemManager {
     void undoLastDeletion();
     void searchItemByName(String name);
     void searchItemByCategory(String category);
-    void saveToFile(String filename) throws IOException;
-    void loadFromFile(String filename) throws FileNotFoundException;
+    void saveToFile(Item item) throws IOException;
+    void loadFromFile() throws FileNotFoundException, IOException;
 }
