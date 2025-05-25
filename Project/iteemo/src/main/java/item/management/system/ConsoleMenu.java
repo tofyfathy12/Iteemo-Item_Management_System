@@ -5,6 +5,7 @@ import java.io.IOException;
 public class ConsoleMenu {
     public String[] options = {"Add Item", "Delete Item", "Update Item", "View Items", "Search Items", "Undo Last Deletion", "Exit"};
     public int optionsNum = options.length;
+    public int selected = 0;
     // ANSI escape codes for colors and styling
     public final String RESET       = "\u001B[0m";
     public final String BRIGHT      = "\u001B[1m";
@@ -34,7 +35,7 @@ public class ConsoleMenu {
         System.in.read();
     }
 
-    public void printMenu(int selected) {
+    public void printMenu() {
         clearScreen();
         String consoleTitle = "COOL CONSOLE MENU";
         System.out.print(BRIGHT + FG_CYAN);
@@ -52,9 +53,16 @@ public class ConsoleMenu {
         }
     }
 
+    public void moveUp() {
+        selected = (selected - 1 + optionsNum) % optionsNum;
+    }
+
+    public void moveDown() {
+        selected = (selected + 1) % optionsNum;
+    }
+
     public static void main(String[] args) throws IOException {
         ConsoleMenu menu = new ConsoleMenu();
-        int selected = 0;
         menu.clearScreen();
 
         // Hide cursor
@@ -62,7 +70,7 @@ public class ConsoleMenu {
         System.out.flush();
 
         while (true) {
-            menu.printMenu(selected);
+            menu.printMenu();
 
             int input = System.in.read();
             // consume newline or other leftover
@@ -71,11 +79,11 @@ public class ConsoleMenu {
             }
 
             if (input == 'w' || input == 'W') {
-                selected = (selected - 1 + menu.optionsNum) % menu.optionsNum;
+                menu.moveUp();
             } else if (input == 's' || input == 'S') {
-                selected = (selected + 1) % menu.optionsNum;
+                menu.moveDown();
             } else if (input == '\n' || input == '\r') {
-                switch (selected) {
+                switch (menu.selected) {
                     case 0:
                         System.out.println(menu.FG_GREEN + "Adding a new Item..." + menu.RESET);
                         menu.pause();
