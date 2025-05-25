@@ -53,6 +53,26 @@ public class ConsoleMenu {
         }
     }
 
+    public void cleanBuffer() throws IOException {
+        // consume newline or other leftover
+        while (System.in.available() > 0) {
+            System.in.read();
+        }
+    }
+
+    public void start() {
+        // Hide cursor
+        System.out.print("\u001B[?25l");
+        System.out.flush();
+    }
+
+    public void close() {
+        // Show cursor
+        System.out.print("\u001B[?25h");
+        System.out.flush();
+        System.exit(0);
+    }
+
     public void moveUp() {
         selected = (selected - 1 + optionsNum) % optionsNum;
     }
@@ -65,18 +85,13 @@ public class ConsoleMenu {
         ConsoleMenu menu = new ConsoleMenu();
         menu.clearScreen();
 
-        // Hide cursor
-        System.out.print("\u001B[?25l");
-        System.out.flush();
+        menu.start();
 
         while (true) {
             menu.printMenu();
 
             int input = System.in.read();
-            // consume newline or other leftover
-            while (System.in.available() > 0) {
-                System.in.read();
-            }
+            menu.cleanBuffer();
 
             if (input == 'w' || input == 'W') {
                 menu.moveUp();
@@ -110,10 +125,7 @@ public class ConsoleMenu {
                         break;
                     case 6:
                         System.out.println(menu.FG_RED + "Exiting..." + menu.RESET);
-                        // Show cursor
-                        System.out.print("\u001B[?25h");
-                        System.out.flush();
-                        System.exit(0);
+                        menu.close();
                         break;
                 }
             }
