@@ -66,9 +66,18 @@ public class ItemManager implements IItemManager{
 
     public void addItem(int ID, String name, String description, String category, int priority) {
         Item newItem = new Item(ID, name, description, category, priority);
+        if (itemsBST.get(ID) != null) {
+            System.out.println("Item with ID = " + ID + " already exists !!");
+            return;
+        }
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
         itemsPQ.insert(priority, newItem);
+        try {
+            saveToFile(new Item(ID, name, description, category, priority));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void viewItemById(int ID) {
@@ -187,16 +196,21 @@ public class ItemManager implements IItemManager{
     }
     public void loadFromFile() throws IOException {
         File csv = new File("Items.csv");
+
         if (!csv.exists()) {
-            throw new FileNotFoundException("File not found: " + csv.getAbsolutePath());
+            System.out.println("File not found: Items.csv. Creating a new file.");
+            csv.createNewFile();
+            return;
         }
         BufferedReader br = new BufferedReader(new FileReader(csv));
         String line = "";
         try {
             while ((line = br.readLine()) != null) {
             String[] values = line.split(",");
+        if (values.length == 5) {
             addItem(Integer.parseInt(values[0]), values[1], values[2], values[3], Integer.parseInt(values[4]));
         }
+            }
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         } finally {

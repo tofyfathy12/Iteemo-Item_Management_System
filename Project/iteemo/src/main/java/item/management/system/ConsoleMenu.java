@@ -31,17 +31,17 @@ public class ConsoleMenu {
     }
 
     public void pause() throws IOException {
-        System.out.print("\nPress ENTER to continue...");
+        System.out.print("\nPress any key and ENTER to continue...");
         System.in.read();
     }
 
     public void printMenu() {
         clearScreen();
-        String consoleTitle = "COOL CONSOLE MENU";
+        String consoleTitle = "ITEEMO - Item Management System";
         System.out.print(BRIGHT + FG_CYAN);
-        System.out.printf("%s%s%s\n", TOP_LEFT, HORIZONTAL.repeat(20), TOP_RIGHT);
+        System.out.printf("%s%s%s\n", TOP_LEFT, HORIZONTAL.repeat(35), TOP_RIGHT);
         System.out.printf("%s  %s  %s\n", VERTICAL, consoleTitle, VERTICAL);
-        System.out.printf("%s%s%s\n" + RESET, BOTTOM_LEFT, HORIZONTAL.repeat(20), BOTTOM_RIGHT);
+        System.out.printf("%s%s%s\n" + RESET, BOTTOM_LEFT, HORIZONTAL.repeat(35), BOTTOM_RIGHT);
 
         for (int i = 0; i < optionsNum; i++) {
             if (i == selected) {
@@ -79,56 +79,5 @@ public class ConsoleMenu {
 
     public void moveDown() {
         selected = (selected + 1) % optionsNum;
-    }
-
-    public static void main(String[] args) throws IOException {
-        ConsoleMenu menu = new ConsoleMenu();
-        menu.clearScreen();
-
-        menu.start();
-
-        while (true) {
-            menu.printMenu();
-
-            int input = System.in.read();
-            menu.cleanBuffer();
-
-            if (input == 'w' || input == 'W') {
-                menu.moveUp();
-            } else if (input == 's' || input == 'S') {
-                menu.moveDown();
-            } else if (input == '\n' || input == '\r') {
-                switch (menu.selected) {
-                    case 0:
-                        System.out.println(menu.FG_GREEN + "Adding a new Item..." + menu.RESET);
-                        menu.pause();
-                        break;
-                    case 1:
-                        System.out.println(menu.FG_GREEN + "Deleting an Item..." + menu.RESET);
-                        menu.pause();
-                        break;
-                    case 2:
-                        System.out.println(menu.FG_GREEN + "Updating an Item..." + menu.RESET);
-                        menu.pause();
-                        break;
-                    case 3:
-                        System.out.println(menu.FG_GREEN + "Viewing Items..." + menu.RESET);
-                        menu.pause();
-                        break;
-                    case 4:
-                        System.out.println(menu.FG_GREEN + "Searching Items..." + menu.RESET);
-                        menu.pause();
-                        break;
-                    case 5:
-                        System.out.println(menu.FG_GREEN + "Undoing last Deletion..." + menu.RESET);
-                        menu.pause();
-                        break;
-                    case 6:
-                        System.out.println(menu.FG_RED + "Exiting..." + menu.RESET);
-                        menu.close();
-                        break;
-                }
-            }
-        }
     }
 }
