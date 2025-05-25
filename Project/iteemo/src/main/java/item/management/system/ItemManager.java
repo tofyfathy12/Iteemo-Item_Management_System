@@ -64,20 +64,23 @@ public class ItemManager implements IItemManager{
         this.undoStack = new MyStack<DLLNode<Item>>();
     }
 
-    public void addItem(int ID, String name, String description, String category, int priority) {
+    public int addItem(int ID, String name, String description, String category, int priority) {
         Item newItem = new Item(ID, name, description, category, priority);
         if (itemsBST.get(ID) != null) {
             System.out.println("Item with ID = " + ID + " already exists !!");
-            return;
+            return 0;
         }
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
         itemsPQ.insert(priority, newItem);
         try {
             saveToFile(new Item(ID, name, description, category, priority));
+            return 1;
         } catch (IOException e) {
             e.printStackTrace();
+            return 0;
         }
+
     }
 
     public void viewItemById(int ID) {

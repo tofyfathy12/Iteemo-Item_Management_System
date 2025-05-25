@@ -45,8 +45,9 @@ public class Main {
                         String category = scanner.nextLine();
                         System.out.print("Enter Priority(1 is Highest, 3 is Lowest Priority):");
                         int priority = scanner.nextInt();
-                        manager.addItem(id, name, description, category, priority);
-                        System.out.println("Item added successfully.");
+                        int addState = manager.addItem(id, name, description, category, priority);
+                        if (addState == 1)
+                            System.out.println("Item added successfully.");
                         menu.pause();
                         break;
                     case 1:
