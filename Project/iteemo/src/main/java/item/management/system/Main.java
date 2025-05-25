@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ItemManager manager = new ItemManager();
-        ConsoleMenu menu = new ConsoleMenu();
         manager.loadFromFile();
         manager.printMenu();
         Scanner scanner = new Scanner(System.in);
@@ -43,7 +42,7 @@ public class Main {
                 System.out.print("Enter ID:");
                 int viewId = scanner.nextInt();
                 
-                // manager.updateItem(viewId, name, description, category, priority);
+                manager.updateItem(viewId, name, description, category, priority);
         }
         scanner.close();
     }
