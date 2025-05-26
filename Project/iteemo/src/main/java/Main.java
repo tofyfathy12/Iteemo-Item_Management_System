@@ -71,6 +71,11 @@ public class Main {
                             continue;
                         }
                         int deleteId = scanner.nextInt();
+                        if (!manager.itemExists(deleteId)) {
+                            System.out.println(menu.FG_RED + "Item with ID " + deleteId + " does not exist." + menu.RESET);
+                            menu.pause();
+                            continue; 
+                        }
                         manager.deleteItem(deleteId);
                         menu.pause();
                         break;
@@ -87,8 +92,7 @@ public class Main {
                         if (!manager.itemExists(updateId)) {
                             System.out.println(menu.FG_RED + "Item with ID " + updateId + " does not exist." + menu.RESET);
                             menu.pause();
-                            continue;
-                            
+                            continue; 
                         }
                         System.out.print("Enter new Name (leave blank to keep current):");
                         String newName = scanner.nextLine();
