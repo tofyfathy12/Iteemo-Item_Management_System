@@ -1,4 +1,4 @@
-# Se7s_project
+# Iteemo
 item management system
 *Project Question: Data Structure Management System*
 
