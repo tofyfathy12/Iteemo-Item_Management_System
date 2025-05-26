@@ -5,7 +5,7 @@
  * Defines the standard LIFO (Last-In, First-Out) operations for a stack.
  * @param <E> the type of elements held in this stack
  */
-interface IStack<E> {
+public interface IStack<E> {
   
     /**
     * Removes the element at the top of this stack and returns that element.
