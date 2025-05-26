@@ -8,12 +8,12 @@ import java.io.IOException;
 public interface IItemManager {
     /**
      * Adds a new item to the manager.
+     * @param isNew indicates if the item is new (true) or imported (false)
      * @param ID the unique identifier for the item
      * @param name the name of the item
      * @param description a description of the item
      * @param category the category of the item
      * @param priority the priority of the item
-     * @param isNew indicates if the item is new (true) or imported (false)
      * @return true if the item was added successfully, false otherwise (e.g., if ID already exists)
      */
     boolean addItem(boolean isNew,int ID, String name, String description, String category, int priority);

@@ -127,6 +127,7 @@ public class ItemManager implements IItemManager{
     /**
      * Adds a new item to the system.
      * The item is added to the DLL, BST (ID -> DLLNode), and Priority Queue.
+     * @param isNew indicates if the item is new (true) or imported (false)
      * @param ID the unique identifier for the item
      * @param name the name of the item
      * @param description a description of the item
