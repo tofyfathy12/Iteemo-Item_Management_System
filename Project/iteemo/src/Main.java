@@ -18,7 +18,6 @@ public class Main {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ItemManager manager = new ItemManager();
-        //manager.loadFromFile();
         manager.loadfromDB();
         ConsoleMenu menu = new ConsoleMenu();
         menu.clearScreen();
@@ -129,13 +128,33 @@ public class Main {
                             System.out.println(menu.FG_YELLOW + "Searching by category..." + menu.RESET);
                             System.out.print("Enter category name: ");
                             String categoryInput = scanner.nextLine().trim();    
-                            manager.searchItemByCategory(categoryInput);
+                            DLL<Item> res = manager.searchItemByCategory(categoryInput);
+                            System.out.print(menu.FG_YELLOW + "Do you want to save results in a csv file(y/n):" + menu.RESET);
+                            String saveChoice = scanner.nextLine().trim().toLowerCase();
+                            if (saveChoice.equals("y") || saveChoice.equals("yes")) {
+                                try {
+                                    manager.saveToFile(res);
+                                    System.out.println(menu.FG_GREEN + "Results saved to Items.csv" + menu.RESET);
+                                } catch (IOException e) {
+                                    System.out.println(menu.FG_RED + "Error saving results: " + e.getMessage() + menu.RESET);
+                                }
+                            }
                         }
                         else if (searchInput.equalsIgnoreCase("name")) {
                             System.out.println(menu.FG_YELLOW + "Searching by name..." + menu.RESET);
                             System.out.print("Enter item name: ");
                             String nameInput = scanner.nextLine().trim();
-                            manager.searchItemByName(nameInput);
+                            DLL<Item> res = manager.searchItemByName(nameInput);
+                            System.out.print(menu.FG_YELLOW + "Do you want to save results in a csv file(y/n):" + menu.RESET);
+                            String saveChoice = scanner.nextLine().trim().toLowerCase();
+                            if (saveChoice.equals("y") || saveChoice.equals("yes")) {
+                                try {
+                                    manager.saveToFile(res);
+                                    System.out.println(menu.FG_GREEN + "Results saved to Items.csv" + menu.RESET);
+                                } catch (IOException e) {
+                                    System.out.println(menu.FG_RED + "Error saving results: " + e.getMessage() + menu.RESET);
+                                }
+                            }
                         }
                         else {
                             System.out.println(menu.FG_RED + "Invalid search criteria. Please enter a valid ID, name, or category." + menu.RESET);
@@ -154,7 +173,6 @@ public class Main {
                         String confirmation = exit.nextLine().trim().toLowerCase();
                         if (confirmation.equals("y") || confirmation.equals("yes")) {
                             menu.clearScreen();
-                            manager.saveToFile();
                             manager.closeDB();
                             System.out.println(menu.FG_YELLOW + "Thank you for using ITEEMO!" + menu.RESET);
                             menu.close();

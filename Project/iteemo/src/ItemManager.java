@@ -211,8 +211,12 @@ public class ItemManager implements IItemManager{
                 item.setDesc(newDescription);
             if (newCategory != null)
                 item.setCategory(newCategory);
-            if (newPriority != null)
+            if (newPriority != null){
                 item.setPriority(newPriority);
+                itemsPQ.remove(item); // Remove the item from the priority queue
+                itemsPQ.insert(newPriority, item); // Reinsert it with the new priority
+            }
+
             db.updateItem(item);    
         }
     }
@@ -273,8 +277,9 @@ public class ItemManager implements IItemManager{
      * Iterates through the DLL.
      * @param name the name of the item(s) to search for.
      */
-    public void searchItemByName(String name) {
+    public DLL<Item> searchItemByName(String name) {
         DLLNode<Item> curr = itemsDll.getHead();
+        DLL<Item> resultsDll = new DLL<Item>();
         int ResultsCount = 0;
         name = name.toLowerCase(); // Convert search term to lowercase for case-insensitive matching
         while (curr != null) {
@@ -285,14 +290,17 @@ public class ItemManager implements IItemManager{
                     System.out.println("--------------------------------------------------");
                 }
                 ResultsCount++;
+                resultsDll.add(curr.getElement()); // Add to results DLL
                 System.out.printf("| %d | %s | %s | %s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             }
             curr = curr.getNext();
         }
         if (ResultsCount == 0) {
             System.out.println("No items found with the name: " + name);
+            return null; // Return null if no items found
         } else {
             System.out.println("--------------------------------------------------");
+            return resultsDll; // Return the DLL containing the items found
         }
     }
 
@@ -301,7 +309,8 @@ public class ItemManager implements IItemManager{
      * Iterates through the DLL.
      * @param category the category of the item(s) to search for.
      */
-    public void searchItemByCategory(String category) {
+    public DLL<Item> searchItemByCategory(String category) {
+        DLL<Item> resultsDll = new DLL<Item>();
         DLLNode<Item> curr = itemsDll.getHead();
         category = category.toLowerCase(); // Convert search term to lowercase for case-insensitive matching
         int ResultsCount = 0;
@@ -313,14 +322,17 @@ public class ItemManager implements IItemManager{
                     System.out.println("--------------------------------------------------");
                 }
                 ResultsCount++;
+                resultsDll.add(curr.getElement()); // Add to results DLL
                 System.out.printf("| %d | %s | %s | %s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             }
             curr = curr.getNext();
         }
         if (ResultsCount == 0) {
             System.out.println("No items found in the category: " + category);
+            return null; // Return null if no items found
         } else {
             System.out.println("--------------------------------------------------");
+            return resultsDll; // Return the DLL containing the items found
         }
     }
     /**
@@ -329,28 +341,6 @@ public class ItemManager implements IItemManager{
      * Each line in the CSV is expected to be: ID,name,description,category,priority
      * @throws IOException if an error occurs during file reading.
      */
-    public void loadFromFile() throws IOException {
-        File csv = new File("Items.csv");
-
-        if (!csv.exists()) {
-            System.out.println("File not found: Items.csv. Creating a new file.");
-            csv.createNewFile();
-            return;
-        }
-        BufferedReader br = new BufferedReader(new FileReader(csv));
-        String line = "";
-        try {
-            while ((line = br.readLine()) != null) {
-            String[] values = line.split(",");
-        if (values.length == 5) {
-            addItem(Integer.parseInt(values[0]), values[1], values[2], values[3], Integer.parseInt(values[4]));
-        }
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        }
-        br.close();
-    }
     /**
      * Helper method to save a single item to the "Items.csv" file.
      * @param item the item to save.
@@ -370,8 +360,8 @@ public class ItemManager implements IItemManager{
      * The first item overwrites the file, subsequent items are appended.
      * @throws IOException if an error occurs during file writing.
      */
-    public void saveToFile () throws IOException {
-        DLLNode<Item> current = itemsDll.getHead();
+    public void saveToFile (DLL<Item> Dll) throws IOException {
+        DLLNode<Item> current = Dll.getHead();
         boolean isFirst = true;
         while (current != null) {
             saveToFileHelper(current.getElement(), !isFirst); // `!isFirst` is used as the append flag for FileWriter
