@@ -112,7 +112,7 @@ public class ConsoleMenu {
         System.out.printf("%s%s%s\n", TOP_LEFT, HORIZONTAL.repeat(35), TOP_RIGHT);
         System.out.printf("%s  %s  %s\n", VERTICAL, consoleTitle, VERTICAL);
         System.out.printf("%s%s%s\n" + RESET, BOTTOM_LEFT, HORIZONTAL.repeat(35), BOTTOM_RIGHT);
-
+        System.out.println(FG_GREEN + "Use W to move up, S to move down and Enter to select an option. " + RESET + "\n");
         for (int i = 0; i < optionsNum; i++) {
             if (i == selected) {
                 System.out.printf("  %s> %s%s%s\n" + RESET,

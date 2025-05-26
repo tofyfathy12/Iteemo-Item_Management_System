@@ -73,7 +73,6 @@ public class Main {
                         }
                         int deleteId = scanner.nextInt();
                         manager.deleteItem(deleteId);
-                        System.out.println("Item with ID " + deleteId + " deleted successfully.");
                         menu.pause();
                         break;
                     case 2:
@@ -86,6 +85,12 @@ public class Main {
                         }
                         int updateId = scanner.nextInt();
                         scanner.nextLine();
+                        if (!manager.itemExists(updateId)) {
+                            System.out.println(menu.FG_RED + "Item with ID " + updateId + " does not exist." + menu.RESET);
+                            menu.pause();
+                            continue;
+                            
+                        }
                         System.out.print("Enter new Name (leave blank to keep current):");
                         String newName = scanner.nextLine();
                         System.out.print("Enter new Description (leave blank to keep current):");
@@ -150,6 +155,7 @@ public class Main {
                         if (confirmation.equals("y") || confirmation.equals("yes")) {
                             menu.clearScreen();
                             manager.saveToFile();
+                            manager.closeDB();
                             System.out.println(menu.FG_YELLOW + "Thank you for using ITEEMO!" + menu.RESET);
                             menu.close();
                             scanner.close();

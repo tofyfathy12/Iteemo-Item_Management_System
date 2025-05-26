@@ -16,7 +16,6 @@ public class ItemDBHandler {
         try {
             String url = "jdbc:sqlite:" + dbFileName;
             connection = DriverManager.getConnection(url);
-            System.out.println("Connection to SQLite database (" + dbFileName + ") has been established.");
         } catch (SQLException e) {
             System.err.println("Error connecting to SQLite database: " + e.getMessage());
         }
@@ -30,7 +29,6 @@ public class ItemDBHandler {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
-                System.out.println("Connection to SQLite database has been closed.");
             }
         } catch (SQLException ex) {
             System.err.println("Error closing SQLite connection: " + ex.getMessage());

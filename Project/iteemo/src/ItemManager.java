@@ -1,6 +1,4 @@
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.*;
 
 /**
@@ -183,6 +181,16 @@ public class ItemManager implements IItemManager{
         System.out.println("---------------------------------------------------------------------\n");
     }
 
+    public boolean itemExists(int ID) {
+        DLLNode<Item> curr = itemsBST.get(ID);
+        if (curr != null) {
+            return true;
+        } else {
+            return false;
+            
+        }
+    }
+
     /**
      * Updates the details of an existing item identified by its ID.
      * Only non-null new values are used for updating.
@@ -207,10 +215,6 @@ public class ItemManager implements IItemManager{
                 item.setPriority(newPriority);
             db.updateItem(item);    
         }
-        
-        else {
-            System.out.println("Item with ID = " + ID + " is not found !!");
-        }
     }
 
     /**
@@ -229,12 +233,17 @@ public class ItemManager implements IItemManager{
             prev = deletedItemNode.getPrev();
             next = deletedItemNode.getNext();
             db.deleteItem(deletedItemNode.getElement().getID());
+            if (prev != null)
+                prev.setNext(next);
+            if (next != null)
+                next.setPrev(prev);
+            itemsDll.size--;
+        System.out.println("Item with ID " + ID + " deleted successfully.");
+        } else 
+        {
+            System.out.println("Item with ID = " + ID + " is not found !!");
         }
-        if (prev != null)
-            prev.setNext(next);
-        if (next != null)
-            next.setPrev(prev);
-        itemsDll.size--;
+        
 
     }
 
@@ -243,8 +252,11 @@ public class ItemManager implements IItemManager{
      * Pops an item from the undo stack and re-inserts it into the DLL, BST, and Priority Queue.
      */
     public void undoLastDeletion() {
+        if (undoStack.isEmpty()) {
+            System.out.println("No deletions to undo.");
+            return;
+        }
         DLLNode<Item> lastDeleted = undoStack.pop();
-
         itemsBST.insert(lastDeleted.getElement().getID(), lastDeleted);
         itemsPQ.insert(lastDeleted.getElement().getPriority(), lastDeleted.getElement());
         db.insertItem(lastDeleted.getElement());
@@ -253,6 +265,7 @@ public class ItemManager implements IItemManager{
             prev.setNext(lastDeleted);
         if (next != null)
             next.setPrev(lastDeleted);
+        System.out.println("Last deletion undone successfully.");    
     }
 
     /**
