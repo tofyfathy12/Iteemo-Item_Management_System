@@ -134,7 +134,7 @@ public class ItemManager implements IItemManager{
      * @param priority the priority of the item
      * @return true if the item was added successfully, false if an item with the same ID already exists.
      */
-    public boolean addItem(int ID, String name, String description, String category, int priority) {
+    public boolean addItem(boolean isNew,int ID, String name, String description, String category, int priority) {
         Item newItem = new Item(ID, name, description, category, priority);
         if (itemsBST.get(ID) != null) {
             System.out.println("Item with ID = " + ID + " already exists !!");
@@ -143,7 +143,9 @@ public class ItemManager implements IItemManager{
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
         itemsPQ.insert(priority, newItem);
-        db.insertItem(newItem);
+        if (isNew) {
+            db.insertItem(newItem);
+        }
         return true;
     }
 
@@ -382,7 +384,7 @@ public class ItemManager implements IItemManager{
             // Loop through the result set
             while (rs.next()) {
                 addItem(
-                    rs.getInt("id"),
+                    false,rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("description"),
                     rs.getString("category"),

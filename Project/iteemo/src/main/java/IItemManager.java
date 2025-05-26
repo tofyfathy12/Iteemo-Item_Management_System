@@ -13,9 +13,10 @@ public interface IItemManager {
      * @param description a description of the item
      * @param category the category of the item
      * @param priority the priority of the item
+     * @param isNew indicates if the item is new (true) or imported (false)
      * @return true if the item was added successfully, false otherwise (e.g., if ID already exists)
      */
-    boolean addItem(int ID, String name, String description, String category, int priority);
+    boolean addItem(boolean isNew,int ID, String name, String description, String category, int priority);
 
     /**
      * Views the details of a specific item by its ID.

@@ -53,7 +53,7 @@ public class Main {
                         String category = scanner.nextLine();
                         System.out.print("Enter Priority(1 is Lowest):");
                         int priority = scanner.nextInt();
-                        boolean isAdded = manager.addItem(id, name, description, category, priority);
+                        boolean isAdded = manager.addItem(true,id, name, description, category, priority);
                         if (!isAdded) {
                             System.out.println(menu.FG_RED + "Failed to add item. Please check the details and try again." + menu.RESET);
                             menu.pause();
