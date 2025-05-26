@@ -203,8 +203,8 @@ public class ItemManager implements IItemManager{
      */
     public void updateItem(int ID, String newName, String newDescription, String newCategory, Integer newPriority) {
         DLLNode<Item> targetNode = itemsBST.get(ID);
-        if (targetNode != null) {
-            Item item = targetNode.getElement();
+        Item item = targetNode.getElement();
+        if (item != null) {
             if (newName != null)
                 item.setName(newName);
             if (newDescription != null)
@@ -216,10 +216,8 @@ public class ItemManager implements IItemManager{
                 itemsPQ.remove(item); // Remove the item from the priority queue
                 itemsPQ.insert(newPriority, item); // Reinsert it with the new priority
             }
+
             db.updateItem(item);    
-        }
-        else {
-            System.out.println("Item with ID = " + ID + " is not found !!");
         }
     }
 
@@ -278,7 +276,6 @@ public class ItemManager implements IItemManager{
      * Searches for items by name and prints their details.
      * Iterates through the DLL.
      * @param name the name of the item(s) to search for.
-     * @return a doubly linked list of items matching the search criteria, or null if no items found.
      */
     public DLL<Item> searchItemByName(String name) {
         DLLNode<Item> curr = itemsDll.getHead();
@@ -311,7 +308,6 @@ public class ItemManager implements IItemManager{
      * Searches for items by category and prints their details.
      * Iterates through the DLL.
      * @param category the category of the item(s) to search for.
-     * @return a doubly linked list of items matching the search criteria, or null if no items found.
      */
     public DLL<Item> searchItemByCategory(String category) {
         DLL<Item> resultsDll = new DLL<Item>();
@@ -339,7 +335,12 @@ public class ItemManager implements IItemManager{
             return resultsDll; // Return the DLL containing the items found
         }
     }
-
+    /**
+     * Loads items from a CSV file named "Items.csv".
+     * If the file doesn't exist, it creates a new one.
+     * Each line in the CSV is expected to be: ID,name,description,category,priority
+     * @throws IOException if an error occurs during file reading.
+     */
     /**
      * Helper method to save a single item to the "Items.csv" file.
      * @param item the item to save.
@@ -354,7 +355,7 @@ public class ItemManager implements IItemManager{
         }
     }
     /**
-     * Saves given items to "Items.csv".
+     * Saves all current items to "Items.csv".
      * Iterates through the items in the DLL and uses the helper method to write each one.
      * The first item overwrites the file, subsequent items are appended.
      * @throws IOException if an error occurs during file writing.
@@ -368,13 +369,6 @@ public class ItemManager implements IItemManager{
             isFirst = false;
         }
     }
-    /**\
-        * Loads items from the database into the items list.
-        * This method retrieves all items from the 'items' table and adds them to the items list.
-        * If the table is empty, the items list will remain empty.
-        * If an error occurs during retrieval, it prints an error message and the items list will be empty or partially filled.
-        * This method is called during the initialization of the ItemManager to populate the items list.
-        */
      public void loadfromDB() {
         // SQL statement to select all records
         String sql = "SELECT id, name, description, category, priority FROM items";
