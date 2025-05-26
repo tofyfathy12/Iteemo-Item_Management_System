@@ -17,7 +17,7 @@ The system offers a console-based interactive menu with the following key featur
 * **Search Items**:
     * Search items by name.
     * Search items by category.
-* **Save to File**: Persist the current list of items to a file (e.g., CSV format via `ItemDBHandler`).
+* **Save to File**: save a list of items to a file (e.g., CSV format) after search operations.
 * **Load from File**: (Implicitly, as `ItemDBHandler` suggests loading/saving capabilities, typically at startup).
 * **Interactive Console Menu**: User-friendly console interface with navigation (up/down arrow keys, enter to select) and styled output (colors, box-drawing characters for a more polished look).
 
@@ -58,7 +58,7 @@ The project is structured around the following core components (all within an un
 To run the Item Management System:
 
 1.  **Prerequisites**:
-    * Java Development Kit (JDK) version 17 or compatible (as indicated by Javadoc generation timestamp: Mon May 26 17:05:01 EEST 2025).
+    * Java Development Kit (JDK) version 17 or compatible.
 2.  **Compilation**:
     Compile all `.java` files. Since they are in an unnamed package, you can typically compile them from their directory:
     ```bash
@@ -70,20 +70,3 @@ To run the Item Management System:
     java Main
     ```
     This will launch the console-based interactive menu.
-
-## Project Structure
-
-All classes and interfaces are currently located in an **unnamed package**. The system is designed with a separation of concerns:
-
-* **`Main`**: Application entry point and orchestrator.
-* **`ConsoleMenu`**: Handles user interaction and presentation logic.
-* **`ItemManager`**: Encapsulates the business logic for item management and coordinates the use of various data structures.
-* **Data Structures (`DLL`, `BinarySearchTree`, `LinkedPriorityQueue`, `MyStack`)**: Provide the underlying mechanisms for storing and organizing data efficiently.
-* **`ItemDBHandler`**: Manages data persistence (saving to and loading from files).
-* **Interfaces (`IBinarySearchTree`, `IItemManager`, `ILinkedList`, `IPriorityQueue`)**: Define clear contracts for the core components, promoting modularity and allowing for alternative implementations.
-
-The `ConsoleMenu` interacts with the `ItemManager` to perform operations based on user choices. The `ItemManager` then utilizes the appropriate data structures and the `ItemDBHandler` for these operations.
-
----
-
-
