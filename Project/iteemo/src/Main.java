@@ -52,7 +52,7 @@ public class Main {
                         String description = scanner.nextLine();
                         System.out.print("Enter Category:");
                         String category = scanner.nextLine();
-                        System.out.print("Enter Priority(1 is Lowest, 3 is Highest Priority):");
+                        System.out.print("Enter Priority(1 is Lowest):");
                         int priority = scanner.nextInt();
                         boolean isAdded = manager.addItem(id, name, description, category, priority);
                         if (!isAdded) {
@@ -97,7 +97,7 @@ public class Main {
                         String newDescription = scanner.nextLine();
                         System.out.print("Enter new Category (leave blank to keep current):");
                         String newCategory = scanner.nextLine();
-                        System.out.print("Enter new Priority (1 is Lowest, 3 is Highest Priority, leave blank to keep current):");
+                        System.out.print("Enter new Priority (1 is Lowest, leave blank to keep current):");
                         String priorityInput = scanner.nextLine();
                         Integer newPriority = null;
                         if (!priorityInput.isEmpty()) {

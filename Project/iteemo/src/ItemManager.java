@@ -175,7 +175,7 @@ public class ItemManager implements IItemManager{
         System.out.println("---------------------------------------------------------------------");
         PQNode<Item> curr = itemsPQ.getHead();
         while (curr != null) {
-            System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getData().getID(), curr.getData().getName(), curr.getData().getDesc(), curr.getData().getCategory());
+            System.out.printf("| %d | %s | %s | %s |\n", curr.getData().getID(), curr.getData().getName(), curr.getData().getDesc(), curr.getData().getCategory());
             curr = curr.getNext();
         }
         System.out.println("---------------------------------------------------------------------\n");
@@ -276,15 +276,16 @@ public class ItemManager implements IItemManager{
     public void searchItemByName(String name) {
         DLLNode<Item> curr = itemsDll.getHead();
         int ResultsCount = 0;
+        name = name.toLowerCase(); // Convert search term to lowercase for case-insensitive matching
         while (curr != null) {
-            if (name.equals(curr.getElement().getName())) {
+            if (curr.getElement().getName().toLowerCase().contains(name)) {
                 if (ResultsCount == 0) {
                     System.out.println("------------------Search Results------------------");
                     System.out.printf("| %-4s | %-15s | %-20s | %-15s |\n", "ID", "Name", "Description", "Category");
                     System.out.println("--------------------------------------------------");
                 }
                 ResultsCount++;
-                System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
+                System.out.printf("| %d | %s | %s | %s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             }
             curr = curr.getNext();
         }
@@ -302,16 +303,17 @@ public class ItemManager implements IItemManager{
      */
     public void searchItemByCategory(String category) {
         DLLNode<Item> curr = itemsDll.getHead();
+        category = category.toLowerCase(); // Convert search term to lowercase for case-insensitive matching
         int ResultsCount = 0;
         while (curr != null) {
-            if (category.equals(curr.getElement().getCategory())) {
+            if (curr.getElement().getCategory().toLowerCase().contains(category)) {
                 if (ResultsCount == 0) {
                     System.out.println("------------------Search Results------------------");
                     System.out.printf("| %-4s | %-15s | %-20s | %-15s |\n", "ID", "Name", "Description", "Category");
                     System.out.println("--------------------------------------------------");
                 }
                 ResultsCount++;
-                System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
+                System.out.printf("| %d | %s | %s | %s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             }
             curr = curr.getNext();
         }
