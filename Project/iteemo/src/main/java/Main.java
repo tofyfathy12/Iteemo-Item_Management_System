@@ -44,7 +44,7 @@ public class Main {
                             continue;
                         }
                         int id = scanner.nextInt();
-                        if (!manager.itemExists(id)) {
+                        if (manager.itemExists(id)) {
                             System.out.println(menu.FG_RED + "Item with ID " + id + "already exists !!" + menu.RESET);
                             menu.pause();
                             continue; 
