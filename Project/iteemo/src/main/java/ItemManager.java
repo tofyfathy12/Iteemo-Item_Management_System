@@ -187,7 +187,6 @@ public class ItemManager implements IItemManager{
             return true;
         } else {
             return false;
-            
         }
     }
 
