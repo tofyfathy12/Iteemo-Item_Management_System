@@ -1,72 +1,55 @@
 # Item Management System
 
-## Overview
+## 🌟 Overview
+This project is a comprehensive **Data Structure application** as an **Item Management System** designed and implemented to organize and manipulate a collection of items, each with attributes like a unique identifier, name, description, category, and priority. The system provides functionalities for adding, viewing, updating, deleting, and searching items.
 
-The Item Management System is a Java-based console application designed to manage a collection of items. It provides functionalities for adding, viewing, updating, deleting, and searching items. The system utilizes various data structures for efficient storage and retrieval, including a Doubly Linked List for sequential access, a Binary Search Tree for fast lookups by ID, a Priority Queue for viewing items by priority, and a Stack for undoing deletions. Item data can be persisted to and loaded from a file.
+It leverages several core data structures for efficient data handling:
+* A **`MyStack`** is utilized to implement an "undo" feature for item deletions.
+* A **`LinkedPriorityQueue`** (a type of queue) manages items based on their priority (e.g., urgent, normal), allowing for prioritized viewing.
+* A **`DLL` (Doubly Linked List)** is used to store items, enabling efficient insertion and deletion operations for sequential access.
+* A **`BinarySearchTree` (BST)**, featuring AVL-like rotations for self-balancing upon insertion, categorizes items by their unique identifiers, facilitating efficient searching and retrieval.
 
-## Features
+The system offers a console-based user interface for interaction and includes features like undoing deletions and persisting data through a database and CSV files.
 
-The system offers a console-based interactive menu with the following key features:
+---
+## ✨ Features
+* **Item Management:**
+    * Add new items with ID, name, description, category, and priority.
+    * View details of a specific item by its ID.
+    * View all items, ordered by priority.
+    * Update existing item details.
+    * Delete items from the system.
+* **Undo Functionality:** Undo the last item deletion using a Stack.
+* **Search Capabilities:**
+    * Search for items by name.
+    * Search for items by category.
+    * Ability to save search results to a csv file.
+* **Data Persistence:**
+    * Load items from a database (`Items.db` via SQLite).
+    * Database operations handled by `ItemDBHandler`.
+* **Console Interface:** Interactive menu-driven console UI for easy navigation and operation.
 
-* **Add Item**: Add a new item with details such as ID, name, description, category, and priority.
-* **View Item by ID**: Display details of a specific item by searching for its ID.
-* **View All Items**: Display all items, typically sorted by priority.
-* **Update Item**: Modify the details (name, description, category, priority) of an existing item.
-* **Delete Item**: Remove an item from the system by its ID.
-* **Undo Last Deletion**: Restore the most recently deleted item.
-* **Search Items**:
-    * Search items by name.
-    * Search items by category.
-* **Save to File**: save a list of items to a file (e.g., CSV format) after search operations.
-* **Load from File**: (Implicitly, as `ItemDBHandler` suggests loading/saving capabilities, typically at startup).
-* **Interactive Console Menu**: User-friendly console interface with navigation (up/down arrow keys, enter to select) and styled output (colors, box-drawing characters for a more polished look).
+---
+## 🛠️ Core Data Structures & Components
+The system is built upon several key data structures and classes:
 
-## Data Structures Implemented
-
-This project features custom implementations of several fundamental data structures:
-
-* **`DLL<E>` (Doubly Linked List)**: As described in `DLL.html`, used for storing items in a sequential manner, allowing for efficient insertions, deletions, and traversals. It implements `ILinkedList<E>`.
-* **`BinarySearchTree<TKey extends Comparable<TKey>, Value>`**: As detailed in `BinarySearchTree.html`, implemented for fast item lookups based on their ID. This BST includes self-balancing capabilities (AVL-like rotations) upon insertion to maintain performance. It implements `IBinarySearchTree<TKey, Value>`.
-* **`LinkedPriorityQueue<E>`**: (Inferred from `allclasses-index.html`) A priority queue implemented using a sorted singly linked list, used for viewing items based on their priority. It implements `IPriorityQueue<E>`.
-* **`MyStack<E>`**: (Inferred from `allclasses-index.html`) A generic stack implemented using a singly linked list, utilized for the "undo deletion" feature.
-
-## Core Classes and Interfaces
-
-The project is structured around the following core components (all within an unnamed package as per `allpackages-index.html`):
-
-### Interfaces
-
-* **`IBinarySearchTree<TKey, Value>`**: Defines the contract for Binary Search Tree operations like insert, delete, get, contains, height, etc. (see `IBinarySearchTree.html`).
-* **`IItemManager`**: Outlines the functionalities for managing the collection of items, including adding, viewing (by ID, all), updating, deleting, undoing deletion, searching (by name, category), and saving to file (see `IItemManager.html`).
-* **`ILinkedList<E>`**: Specifies the standard operations for a generic List data structure, such as add, get, set, remove, clear, size, etc. (see `ILinkedList.html`).
-* **`IPriorityQueue<E>`**: (Inferred from `allclasses-index.html`) Defines the contract for a Priority Queue data structure (e.g., enqueue, dequeue, peek).
-
-### Classes
-
-* **`Main`**: (Inferred from `allclasses-index.html`) The entry point for the Item Management System application. It likely initializes `ItemManager` and `ConsoleMenu` and starts the main application loop.
-* **`ConsoleMenu`**: Manages the console-based user interface. It displays an interactive menu, processes user input for navigation and option selection, and uses ANSI escape codes (defined as constants like `FG_CYAN`, `HORIZONTAL`, etc. in `ConsoleMenu.html` and `constant-values.html`) for styling the output.
-* **`ItemManager`**: (Inferred from `allclasses-index.html` and `IItemManager.html`) The core class responsible for managing items. It uses `DLL` for sequential storage, `BinarySearchTree` for ID-based lookups, `LinkedPriorityQueue` for priority-based viewing, and `MyStack` for undoing deletions. It implements `IItemManager`.
-* **`ItemDBHandler`**: (Inferred from `allclasses-index.html`) Handles the persistence of item data, likely responsible for saving to and loading from a file (e.g., CSV).
-* **`BinarySearchTree<TKey, Value>`**: An implementation of `IBinarySearchTree` providing a self-balancing binary search tree.
-* **`DLL<E>`**: An implementation of `ILinkedList` providing a doubly linked list.
-* **`LinkedPriorityQueue<E>`**: An implementation of `IPriorityQueue` using a sorted singly linked list.
-* **`MyStack<E>`**: A generic stack implementation using a singly linked list.
-* **`Item`**: (Implicitly used) A class representing the items being managed. Its attributes would include ID, name, description, category, and priority.
-
-## Getting Started
-
-To run the Item Management System:
-
-1.  **Prerequisites**:
-    * Java Development Kit (JDK) version 17 or compatible.
-2.  **Compilation**:
-    Compile all `.java` files. Since they are in an unnamed package, you can typically compile them from their directory:
-    ```bash
-    javac *.java
-    ```
-3.  **Execution**:
-    Run the `Main` class to start the application:
-    ```bash
-    java Main
-    ```
-    This will launch the console-based interactive menu.
+* **`Main`**: The main entry point for the application. It initializes the `ItemManager` and `ConsoleMenu`, loads data, and handles the main interaction loop.
+* **`ItemManager`**: The central class responsible for managing the collection of items. It uses:
+    * A **`DLL` (Doubly Linked List)** for sequential access and iteration of items.
+    * A **`BinarySearchTree`** for fast lookups of items by their ID.
+    * A **`LinkedPriorityQueue`** for viewing items based on their priority.
+    * A **`MyStack`** to manage and undo deletions.
+* **`ConsoleMenu`**: Handles the console-based user interface, displaying menus and processing user input with styled output.
+* **`ItemDBHandler`**: Manages all database operations (SQLite) for items, including creating tables, inserting, updating, and deleting item records.
+* **`Item`**: Represents an item with attributes like ID, name, description, category, and priority.
+* **Custom Data Structure Implementations:**
+    * **`DLL<E>`**: A generic Doubly Linked List.
+    * **`BinarySearchTree<TKey extends Comparable<TKey>, Value>`**: A generic Binary Search Tree, featuring AVL-like rotations for self-balancing upon insertion.
+    * **`LinkedPriorityQueue<E>`**: A generic Priority Queue implemented using a sorted singly linked list.
+    * **`MyStack<E>`**: A generic Stack implemented using a singly linked list.
+* **Interfaces:**
+    * `IItemManager`: Defines the contract for item management.
+    * `IBinarySearchTree`: Defines the contract for a Binary Search Tree.
+    * `ILinkedList`: Defines the contract for a List data structure.
+    * `IPriorityQueue`: Defines the contract for a Priority Queue.
+    * `IStack`: Defines the contract for a Stack data structure.
