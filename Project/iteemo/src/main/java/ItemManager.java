@@ -241,9 +241,6 @@ public class ItemManager implements IItemManager{
                 next.setPrev(prev);
             itemsDll.size--;
         System.out.println("Item with ID " + ID + " deleted successfully.");
-        } else 
-        {
-            System.out.println("Item with ID = " + ID + " is not found !!");
         }
     }
 
