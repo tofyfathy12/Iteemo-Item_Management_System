@@ -94,7 +94,7 @@ public class ConsoleMenu {
      * @throws IOException if an I/O error occurs.
      */
     public void pause() throws IOException {
-        System.out.print("\nPress any key and ENTER to continue...");
+        System.out.print("\nPress ENTER to continue...");
         while (!scanner.nextLine().isEmpty()) {
             // Wait for user input
         }

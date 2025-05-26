@@ -1,4 +1,7 @@
 import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Represents an item with an ID, name, description, category, and priority.
@@ -109,7 +112,9 @@ public class ItemManager implements IItemManager{
     private BinarySearchTree<Integer, DLLNode<Item>> itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
     private MyStack<DLLNode<Item>> undoStack;
     private LinkedPriorityQueue<Item> itemsPQ = new LinkedPriorityQueue<>();
-
+    private ItemDBHandler db = new ItemDBHandler("iteemo.db");
+    private Connection connection; // Get the database connection from the ItemDBHandler
+    
     /**
      * Constructs a new ItemManager, initializing the data structures.
      */
@@ -117,6 +122,8 @@ public class ItemManager implements IItemManager{
         this.itemsDll = new DLL<Item>();
         this.itemsBST = new BinarySearchTree<Integer, DLLNode<Item>>();
         this.undoStack = new MyStack<DLLNode<Item>>();
+        connection = db.connect();
+        db.createTable();
     }
 
     /**
@@ -138,6 +145,7 @@ public class ItemManager implements IItemManager{
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
         itemsPQ.insert(priority, newItem);
+        db.insertItem(newItem);
         return true;
     }
 
@@ -197,7 +205,9 @@ public class ItemManager implements IItemManager{
                 item.setCategory(newCategory);
             if (newPriority != null)
                 item.setPriority(newPriority);
+            db.updateItem(item);    
         }
+        
         else {
             System.out.println("Item with ID = " + ID + " is not found !!");
         }
@@ -218,12 +228,14 @@ public class ItemManager implements IItemManager{
             itemsPQ.remove(deletedItemNode.getElement());
             prev = deletedItemNode.getPrev();
             next = deletedItemNode.getNext();
+            db.deleteItem(deletedItemNode.getElement().getID());
         }
         if (prev != null)
             prev.setNext(next);
         if (next != null)
             next.setPrev(prev);
         itemsDll.size--;
+
     }
 
     /**
@@ -235,7 +247,7 @@ public class ItemManager implements IItemManager{
 
         itemsBST.insert(lastDeleted.getElement().getID(), lastDeleted);
         itemsPQ.insert(lastDeleted.getElement().getPriority(), lastDeleted.getElement());
-
+        db.insertItem(lastDeleted.getElement());
         DLLNode<Item> prev = lastDeleted.getPrev(), next = lastDeleted.getNext();
         if (prev != null)
             prev.setNext(lastDeleted);
@@ -261,6 +273,7 @@ public class ItemManager implements IItemManager{
                 ResultsCount++;
                 System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             }
+            curr = curr.getNext();
         }
         if (ResultsCount == 0) {
             System.out.println("No items found with the name: " + name);
@@ -287,6 +300,7 @@ public class ItemManager implements IItemManager{
                 ResultsCount++;
                 System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             }
+            curr = curr.getNext();
         }
         if (ResultsCount == 0) {
             System.out.println("No items found in the category: " + category);
@@ -349,5 +363,33 @@ public class ItemManager implements IItemManager{
             current = current.getNext();
             isFirst = false;
         }
+    }
+     public void loadfromDB() {
+        // SQL statement to select all records
+        String sql = "SELECT id, name, description, category, priority FROM items";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) { // ResultSet is AutoCloseable
+
+            // Loop through the result set
+            while (rs.next()) {
+                addItem(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getString("category"),
+                    rs.getInt("priority")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving all items: " + e.getMessage());
+            // items list will be empty or partially filled if error occurs mid-loop
+        }
+        return;
+    }
+    /**
+     * Closes the database connection.
+     */
+    public void closeDB() {
+        db.closeConnection();
     }
 }

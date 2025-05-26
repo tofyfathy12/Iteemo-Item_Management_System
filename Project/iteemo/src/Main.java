@@ -2,10 +2,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-
 /**
  * The main class for the Item Management System.
- * This class initializes the {@link ItemManager} and {@link ConsoleMenu},
+ * This class initializes the {@link ItemManagerV1} and {@link ConsoleMenu},
  * loads data from a file, and then enters a loop to display the menu and process user input.
  */
 public class Main {
@@ -19,7 +18,8 @@ public class Main {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ItemManager manager = new ItemManager();
-        manager.loadFromFile();
+        //manager.loadFromFile();
+        manager.loadfromDB();
         ConsoleMenu menu = new ConsoleMenu();
         menu.clearScreen();
 
@@ -120,15 +120,20 @@ public class Main {
                         if (searchInput.matches("\\d+")) {
                             int searchId = Integer.parseInt(searchInput);
                             manager.viewItemById(searchId);
-                        } else if (searchInput.contains(" ")) {
-                            String[] parts = searchInput.split(" ");
-                            if (parts.length == 2 && parts[0].equalsIgnoreCase("category")) {
-                                manager.searchItemByCategory(parts[1]);
-                            } else {
-                                manager.searchItemByName(parts[0]);
-                            }
-                        } else {
-                            manager.searchItemByName(searchInput);
+                        } else if (searchInput.equalsIgnoreCase("category")) {
+                            System.out.println(menu.FG_YELLOW + "Searching by category..." + menu.RESET);
+                            System.out.print("Enter category name: ");
+                            String categoryInput = scanner.nextLine().trim();    
+                            manager.searchItemByCategory(categoryInput);
+                        }
+                        else if (searchInput.equalsIgnoreCase("name")) {
+                            System.out.println(menu.FG_YELLOW + "Searching by name..." + menu.RESET);
+                            System.out.print("Enter item name: ");
+                            String nameInput = scanner.nextLine().trim();
+                            manager.searchItemByName(nameInput);
+                        }
+                        else {
+                            System.out.println(menu.FG_RED + "Invalid search criteria. Please enter a valid ID, name, or category." + menu.RESET);
                         }
                         menu.pause();
                         break;
