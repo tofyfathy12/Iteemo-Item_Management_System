@@ -19,7 +19,6 @@ public class Main {
             int input = System.in.read();
             Scanner scanner = new Scanner(System.in);
             menu.cleanBuffer();
-
             if (input == 'w' || input == 'W') {
                 menu.moveUp();
             } else if (input == 's' || input == 'S') {
@@ -50,13 +49,7 @@ public class Main {
                             menu.pause();
                             continue;
                         }
-                        try {
-                            manager.saveToFile(new Item(id, name, description, category, priority));
-                            System.out.println("Item added successfully.");
-                        } catch (IOException e) {
-                            System.out.println(menu.FG_RED + "Error saving item to file: " + e.getMessage() + menu.RESET);
-                            continue;
-                        }
+                        System.out.println("Item added successfully.");
                         menu.pause();
                         break;
                     case 1:
@@ -140,6 +133,7 @@ public class Main {
                         String confirmation = exit.nextLine().trim().toLowerCase();
                         if (confirmation.equals("y") || confirmation.equals("yes")) {
                             menu.clearScreen();
+                            manager.saveToFile();
                             System.out.println(menu.FG_YELLOW + "Thank you for using ITEEMO!" + menu.RESET);
                             menu.close();
                             scanner.close();
@@ -153,5 +147,6 @@ public class Main {
                 }
             }
         }
+    
 }
 }

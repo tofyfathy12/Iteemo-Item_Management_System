@@ -81,7 +81,7 @@ public class ItemManager implements IItemManager{
         if (curr != null) {
             System.out.println("---------------------------------------------------------------------");
             System.out.printf("| %-4s | %-15s | %-20s | %-15s |\n", "ID", "Name", "Description", "Category");
-            System.out.println("--------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------");
             System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
             System.out.println("---------------------------------------------------------------------");
         } else {
@@ -212,11 +212,20 @@ public class ItemManager implements IItemManager{
         }
         br.close();
     }
-    public void saveToFile (Item item) throws IOException {
-        try (FileWriter fileWriter = new FileWriter("Items.csv", true)) {
+    public void saveToFileHelper (Item item, boolean isFirst) throws IOException {
+        try (FileWriter fileWriter = new FileWriter("Items.csv", isFirst)) {
             fileWriter.write(item.getID() + "," + item.getName() + "," + item.getDesc() + "," + item.getCategory() + "," + item.getPriority() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    public void saveToFile () throws IOException {
+        DLLNode<Item> current = itemsDll.getHead();
+        boolean isFirst = true;
+        while (current != null) {
+            saveToFileHelper(current.getElement(), !isFirst);
+            current = current.getNext();
+            isFirst = false;
         }
     }
     
