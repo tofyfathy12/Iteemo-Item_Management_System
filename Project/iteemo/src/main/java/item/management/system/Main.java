@@ -44,6 +44,7 @@ public class Main {
                         String category = scanner.nextLine();
                         System.out.print("Enter Priority(1 is Lowest, 3 is Highest Priority):");
                         int priority = scanner.nextInt();
+<<<<<<< HEAD
                         boolean isAdded = manager.addItem(id, name, description, category, priority);
                         if (!isAdded) {
                             System.out.println(menu.FG_RED + "Failed to add item. Please check the details and try again." + menu.RESET);
@@ -57,6 +58,11 @@ public class Main {
                             System.out.println(menu.FG_RED + "Error saving item to file: " + e.getMessage() + menu.RESET);
                             continue;
                         }
+=======
+                        int addState = manager.addItem(id, name, description, category, priority);
+                        if (addState == 1)
+                            System.out.println("Item added successfully.");
+>>>>>>> 46d16e9c2a7a4d190d820d1644857d6d1cf6e8f6
                         menu.pause();
                         break;
                     case 1:
