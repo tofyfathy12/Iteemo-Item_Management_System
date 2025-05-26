@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 /**
@@ -57,6 +56,7 @@ public interface IItemManager {
      * Searches for items by their name and displays the results.
      * Output is typically to the console.
      * @param name the name to search for (exact match expected in the current implementation)
+     * @return a doubly linked list of items matching the search criteria
      */
     DLL<Item> searchItemByName(String name);
 
@@ -64,18 +64,14 @@ public interface IItemManager {
      * Searches for items by their category and displays the results.
      * Output is typically to the console.
      * @param category the category to search for (exact match expected in the current implementation)
+     * @return a doubly linked list of items matching the search criteria
      */
     DLL<Item> searchItemByCategory(String category);
 
     /**
-     * Saves all current items to a persistent storage file (e.g., CSV).
+     * Saves items after search to a storage file (e.g., CSV).
+     * @param Dll the doubly linked list of items to save
      * @throws IOException if an I/O error occurs during saving
      */
     void saveToFile(DLL<Item> Dll) throws IOException;
-
-    /**
-     * Loads items from a persistent storage file (e.g., CSV) into the manager.
-     * @throws FileNotFoundException if the storage file is not found (though current implementation creates it)
-     * @throws IOException if an I/O error occurs during loading
-     */
 }

@@ -1,16 +1,23 @@
 import java.sql.*;
 
-
+/**
+ * This class handles database operations for items in the project.
+ */
 public class ItemDBHandler {
     private Connection connection = null;
     private String dbFileName;
 
+    /**
+     * Constructs an ItemDBHandler with the specified database file name.
+     * @param dbFileName The name of the SQLite database file.
+     */
     public ItemDBHandler(String dbFileName) {
         this.dbFileName = dbFileName;
     }
 
     /**
      * Establishes a connection to the SQLite database.
+     * @return The database connection.
      */
     public Connection connect() {
         try {
