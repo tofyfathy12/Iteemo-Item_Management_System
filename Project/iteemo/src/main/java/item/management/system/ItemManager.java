@@ -64,45 +64,41 @@ public class ItemManager implements IItemManager{
         this.undoStack = new MyStack<DLLNode<Item>>();
     }
 
-    public void addItem(int ID, String name, String description, String category, int priority) {
+    public boolean addItem(int ID, String name, String description, String category, int priority) {
         Item newItem = new Item(ID, name, description, category, priority);
         if (itemsBST.get(ID) != null) {
             System.out.println("Item with ID = " + ID + " already exists !!");
-            return;
+            return false;
         }
         DLLNode<Item> newNode = itemsDll.add(newItem);
         itemsBST.insert(newItem.getID(),newNode);
         itemsPQ.insert(priority, newItem);
-        try {
-            saveToFile(new Item(ID, name, description, category, priority));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return true;
     }
 
     public void viewItemById(int ID) {
         DLLNode<Item> curr = itemsBST.get(ID);
         if (curr != null) {
-            System.out.println("--------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------");
             System.out.printf("| %-4s | %-15s | %-20s | %-15s |\n", "ID", "Name", "Description", "Category");
             System.out.println("--------------------------------------------------");
             System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getElement().getID(), curr.getElement().getName(), curr.getElement().getDesc(), curr.getElement().getCategory());
-            System.out.println("--------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------");
         } else {
             System.out.println("Item not found.");
         }
     }
 
     public void viewAllItems() {
-        System.out.println("--------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
         System.out.printf("| %-4s | %-15s | %-20s | %-15s |\n", "ID", "Name", "Description", "Category");
-        System.out.println("--------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
         PQNode<Item> curr = itemsPQ.getHead();
         while (curr != null) {
             System.out.printf("| %-4d | %-15s | %-20s | %-15s |\n", curr.getData().getID(), curr.getData().getName(), curr.getData().getDesc(), curr.getData().getCategory());
             curr = curr.getNext();
         }
-        System.out.println("--------------------------------------------------\n");
+        System.out.println("---------------------------------------------------------------------\n");
     }
 
     public void updateItem(int ID, String newName, String newDescription, String newCategory, Integer newPriority) {
@@ -213,10 +209,8 @@ public class ItemManager implements IItemManager{
             }
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
-        } finally {
-            br.close();
         }
-        
+        br.close();
     }
     public void saveToFile (Item item) throws IOException {
         try (FileWriter fileWriter = new FileWriter("Items.csv", true)) {
@@ -225,14 +219,5 @@ public class ItemManager implements IItemManager{
             e.printStackTrace();
         }
     }
-    public void printMenu() {
-        System.out.println("1. Add Item");
-        System.out.println("2. Delete Item");
-        System.out.println("3. Update Item");
-        System.out.println("4. View Items");
-        System.out.println("5. Search Items");
-        System.out.println("6. Undo Last Deletion");
-        System.out.println("7. Exit");
-        System.out.print("Enter your choice: ");
-    }
+    
 }

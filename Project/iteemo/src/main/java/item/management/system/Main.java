@@ -16,7 +16,6 @@ public class Main {
 
         while (true) {
             menu.printMenu();
-
             int input = System.in.read();
             Scanner scanner = new Scanner(System.in);
             menu.cleanBuffer();
@@ -43,18 +42,67 @@ public class Main {
                         String description = scanner.nextLine();
                         System.out.print("Enter Category:");
                         String category = scanner.nextLine();
-                        System.out.print("Enter Priority(1 is Highest, 3 is Lowest Priority):");
+                        System.out.print("Enter Priority(1 is Lowest, 3 is Highest Priority):");
                         int priority = scanner.nextInt();
-                        manager.addItem(id, name, description, category, priority);
-                        System.out.println("Item added successfully.");
+                        boolean isAdded = manager.addItem(id, name, description, category, priority);
+                        if (!isAdded) {
+                            System.out.println(menu.FG_RED + "Failed to add item. Please check the details and try again." + menu.RESET);
+                            menu.pause();
+                            continue;
+                        }
+                        try {
+                            manager.saveToFile(new Item(id, name, description, category, priority));
+                            System.out.println("Item added successfully.");
+                        } catch (IOException e) {
+                            System.out.println(menu.FG_RED + "Error saving item to file: " + e.getMessage() + menu.RESET);
+                            continue;
+                        }
                         menu.pause();
                         break;
                     case 1:
                         System.out.println(menu.FG_GREEN + "Deleting an Item..." + menu.RESET);
+                        System.out.print("Enter ID of the item to delete:");
+                        if (!scanner.hasNextInt()) {
+                            System.out.println(menu.FG_RED + "Invalid ID. Please enter a valid integer." + menu.RESET);
+                            scanner.nextLine();
+                            continue;
+                        }
+                        int deleteId = scanner.nextInt();
+                        manager.deleteItem(deleteId);
+                        System.out.println("Item with ID " + deleteId + " deleted successfully.");
                         menu.pause();
                         break;
                     case 2:
                         System.out.println(menu.FG_GREEN + "Updating an Item..." + menu.RESET);
+                        System.out.print("Enter ID of the item to update:");
+                        if (!scanner.hasNextInt()) {
+                            System.out.println(menu.FG_RED + "Invalid ID. Please enter a valid integer." + menu.RESET);
+                            scanner.nextLine();
+                            continue;
+                        }
+                        int updateId = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Enter new Name (leave blank to keep current):");
+                        String newName = scanner.nextLine();
+                        System.out.print("Enter new Description (leave blank to keep current):");
+                        String newDescription = scanner.nextLine();
+                        System.out.print("Enter new Category (leave blank to keep current):");
+                        String newCategory = scanner.nextLine();
+                        System.out.print("Enter new Priority (1 is Lowest, 3 is Highest Priority, leave blank to keep current):");
+                        String priorityInput = scanner.nextLine();
+                        Integer newPriority = null;
+                        if (!priorityInput.isEmpty()) {
+                            if (!priorityInput.matches("\\d+")) {
+                                System.out.println(menu.FG_RED + "Invalid Priority. Please enter a valid integer." + menu.RESET);
+                                menu.pause();
+                                continue;
+                            }
+                            newPriority = Integer.parseInt(priorityInput);
+                        }
+                        manager.updateItem(updateId, newName.isEmpty() ? null : newName, 
+                                           newDescription.isEmpty() ? null : newDescription, 
+                                           newCategory.isEmpty() ? null : newCategory, 
+                                           newPriority);
                         menu.pause();
                         break;
                     case 3:
@@ -63,10 +111,26 @@ public class Main {
                         break;
                     case 4:
                         System.out.println(menu.FG_GREEN + "Searching Items..." + menu.RESET);
+                        System.out.print("Enter search criteria (name/category) or just enter ID: ");
+                        String searchInput = scanner.nextLine().trim();
+                        if (searchInput.matches("\\d+")) {
+                            int searchId = Integer.parseInt(searchInput);
+                            manager.viewItemById(searchId);
+                        } else if (searchInput.contains(" ")) {
+                            String[] parts = searchInput.split(" ");
+                            if (parts.length == 2 && parts[0].equalsIgnoreCase("category")) {
+                                manager.searchItemByCategory(parts[1]);
+                            } else {
+                                manager.searchItemByName(parts[0]);
+                            }
+                        } else {
+                            manager.searchItemByName(searchInput);
+                        }
                         menu.pause();
                         break;
                     case 5:
                         System.out.println(menu.FG_GREEN + "Undoing last Deletion..." + menu.RESET);
+                        manager.undoLastDeletion();
                         menu.pause();
                         break;
                     case 6:

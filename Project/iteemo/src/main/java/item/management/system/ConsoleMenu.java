@@ -1,6 +1,7 @@
 package item.management.system;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ConsoleMenu {
     public String[] options = {"Add Item", "Delete Item", "Update Item", "View Items", "Search Items", "Undo Last Deletion", "Exit"};
@@ -29,10 +30,13 @@ public class ConsoleMenu {
         System.out.print("\033[2J\033[H");
         System.out.flush();
     }
-
+    Scanner scanner = new Scanner(System.in);
     public void pause() throws IOException {
         System.out.print("\nPress any key and ENTER to continue...");
-        System.in.read();
+        while (!scanner.nextLine().isEmpty()) {
+            // Wait for user input
+        }
+        clearScreen();
     }
 
     public void printMenu() {
@@ -70,6 +74,7 @@ public class ConsoleMenu {
         // Show cursor
         System.out.print("\u001B[?25h");
         System.out.flush();
+        scanner.close();
         System.exit(0);
     }
 
