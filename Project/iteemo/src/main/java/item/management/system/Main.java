@@ -5,7 +5,20 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
+/**
+ * The main class for the Item Management System.
+ * This class initializes the {@link ItemManager} and {@link ConsoleMenu},
+ * loads data from a file, and then enters a loop to display the menu and process user input.
+ */
 public class Main {
+    /**
+     * The main entry point for the application.
+     * It sets up the item manager, loads initial data, and starts the console menu interaction loop.
+     * Handles user input for navigating the menu and performing item management operations.
+     * @param args command-line arguments (not used).
+     * @throws FileNotFoundException if the data file ("Items.csv") is not found during loading.
+     * @throws IOException if an I/O error occurs during file operations or console input.
+     */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ItemManager manager = new ItemManager();
         manager.loadFromFile();
@@ -147,6 +160,5 @@ public class Main {
                 }
             }
         }
-    
-}
+    }
 }
