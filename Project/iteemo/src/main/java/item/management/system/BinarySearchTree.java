@@ -44,7 +44,8 @@ class Node<TKey extends Comparable<TKey>, Value> {
 
         public void setLeft(Node<TKey, Value> left) {
             this.left = left;
-            left.parent = this;
+            if (left != null)
+                left.parent = this;
         }
 
         public boolean hasLeft() {
@@ -57,7 +58,8 @@ class Node<TKey extends Comparable<TKey>, Value> {
 
         public void setRight(Node<TKey, Value> right) {
             this.right = right;
-            right.parent = this;
+            if (right != null)
+                right.parent = this;
         }
 
         public boolean hasRight() {
