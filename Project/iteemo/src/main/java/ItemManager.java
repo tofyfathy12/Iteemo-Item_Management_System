@@ -202,8 +202,8 @@ public class ItemManager implements IItemManager{
      */
     public void updateItem(int ID, String newName, String newDescription, String newCategory, Integer newPriority) {
         DLLNode<Item> targetNode = itemsBST.get(ID);
+        Item item = targetNode.getElement();
         if (targetNode != null) {
-            Item item = targetNode.getElement();
             if (newName != null)
                 item.setName(newName);
             if (newDescription != null)
@@ -216,9 +216,6 @@ public class ItemManager implements IItemManager{
                 itemsPQ.insert(newPriority, item); // Reinsert it with the new priority
             }
             db.updateItem(item);    
-        }
-        else {
-            System.out.println("Item with ID = " + ID + " is not found !!");
         }
     }
 
